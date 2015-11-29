@@ -2,11 +2,16 @@
 Bukkit/Spigot plugin for warps available for regular server players. Don't worry about permissions, just add it and be happy like yours users.
 
 Supported Bukkit/Spigot versions:
+
 -1.7.9
+
 -1.7.10
 
+
 Required plugins:
+
 -PermissionsEx
+
 
 Changelog
 
