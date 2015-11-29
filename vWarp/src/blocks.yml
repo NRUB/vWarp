@@ -1,0 +1,44 @@
+#In this file you can define which blocks are safe and which not.
+#Remember that there are a few immutable rules, that are stronger than those specified in this file.
+#For example, the block on which player will be reborn, must be obsidian and above it must be a minimum of 3 blocks of air.
+#In addition under the block of obsidian cannot be a block of air.
+
+#Here you can define safe blocks. They can be near vwarp. It's something like white-list.
+#It will be good (for you) if you write them in ascending order.
+safe:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '7'
+    - '14'
+    - '15'
+    - '16'
+    - '17'
+    - '19'
+    - '20'
+    - '21'
+    - '22'
+    - '24'
+    - '25'
+    - '49'
+
+#Here you can define dangerous blocks. They definitely cannot be near vwarp. Example of dangerous block is lava.
+#It will be good (for you) if you write them in ascending order.
+dangerous:
+    - '8'
+    - '9'
+    - '10'
+    - '11'
+    - '23'
+    - '29'
+    - '30'
+    - '33'
+    - '46'
+    - '51'
+    - '52'
+    - '81'
+    - '90'
+    - '407'
