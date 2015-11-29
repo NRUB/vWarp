@@ -194,7 +194,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr=parseInt(args[1]);
                 }
-                catch (NumberFormatException badValue) { //second argument is not a number
+                catch (NumberFormatException NFex) { //second argument is not a number
                     return false;
                 }
                 final int j;
@@ -288,7 +288,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr=parseInt(args[0]);
                 }
-                catch (NumberFormatException badValue) { //first argument is not a number
+                catch (NumberFormatException NFex) { //first argument is not a number
                     return false;
                 }
                 if (nr>0&&canSetVWarpNumberException((Player) sender, nr)&&canSetVWarpWorldException((Player) sender)) {
@@ -344,7 +344,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr=parseInt(args[0]);
                 }
-                catch (NumberFormatException badValue) { //first argument is not a number
+                catch (NumberFormatException NFex) { //first argument is not a number
                     return false;
                 }
                 for (int i=0; i<warpList.size(); i++) {
@@ -393,7 +393,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr=parseInt(args[1]);
                 }
-                catch (NumberFormatException badValue) { //second argument is not a number
+                catch (NumberFormatException NFex) { //second argument is not a number
                     return false;
                 }
                 if (nr>0) {
@@ -448,7 +448,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr=parseInt(args[1]);
                 }
-                catch (NumberFormatException badValue) { //second argument is not a number
+                catch (NumberFormatException NFex) { //second argument is not a number
                     return false;
                 }
                 for (int i=0; i<warpList.size(); i++) {
@@ -486,7 +486,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr=parseInt(args[1]);
                 }
-                catch (NumberFormatException badValue) {
+                catch (NumberFormatException NFex) {
                     sender.sendMessage(Lang.getMessage("CUICP"));
                     return true;
                 }
@@ -521,7 +521,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr=parseInt(args[0]);
                 }
-                catch (NumberFormatException badValue) { //second argument is not a number
+                catch (NumberFormatException NFex) { //second argument is not a number
                     return false;
                 }
                 sender.sendMessage(Lang.getMessage("POL")+nr);
