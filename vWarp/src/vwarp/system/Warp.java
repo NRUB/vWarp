@@ -20,20 +20,20 @@ public class Warp {
 
     public Warp(String name, int number, double X, double Y, double Z, float yaw, float pitch, String world) { //constructor
         super();
-        vwarpName=name;
-        vwarpNumber=number;
-        this.X=(double) (((int) X)-0.5);
-        if (this.X>0) {
+        vwarpName = name;
+        vwarpNumber = number;
+        this.X = (double) (((int) X) - 0.5);
+        if (this.X > 0) {
             this.X++;
         }
-        this.Y=Y;
-        this.Z=(double) (((int) Z)-0.5);
-        if (this.Z>0) {
+        this.Y = Y;
+        this.Z = (double) (((int) Z) - 0.5);
+        if (this.Z > 0) {
             this.Z++;
         }
-        this.yaw=yaw;
-        this.pitch=pitch;
-        this.world=world;
+        this.yaw = yaw;
+        this.pitch = pitch;
+        this.world = world;
     }
 
     public Warp() { //default constructor
@@ -44,7 +44,7 @@ public class Warp {
     }
 
     public void setName(String name) {
-        vwarpName=name;
+        vwarpName = name;
     }
 
     public int getNumber() {
@@ -52,7 +52,7 @@ public class Warp {
     }
 
     public void setNumber(int number) {
-        vwarpNumber=number;
+        vwarpNumber = number;
     }
 
     public double getX() {
@@ -60,8 +60,8 @@ public class Warp {
     }
 
     public void setX(double X) {
-        int temp=(int) X;
-        this.X=(double) temp+0.5;
+        int temp = (int) X;
+        this.X = (double) temp + 0.5;
     }
 
     public double getY() {
@@ -69,8 +69,8 @@ public class Warp {
     }
 
     public void setY(double Y) {
-        int temp=(int) Y;
-        this.Y=(double) temp+0.5;
+        int temp = (int) Y;
+        this.Y = (double) temp + 0.5;
     }
 
     public double getZ() {
@@ -78,8 +78,8 @@ public class Warp {
     }
 
     public void setZ(double Z) {
-        int temp=(int) Z;
-        this.Z=(double) temp+0.5;
+        int temp = (int) Z;
+        this.Z = (double) temp + 0.5;
     }
 
     public float getYaw() {
@@ -87,7 +87,7 @@ public class Warp {
     }
 
     public void setYaw(float yaw) {
-        this.yaw=yaw;
+        this.yaw = yaw;
     }
 
     public float getPitch() {
@@ -95,7 +95,7 @@ public class Warp {
     }
 
     public void setPitch(float pitch) {
-        this.pitch=pitch;
+        this.pitch = pitch;
     }
 
     public String getWorld() {
@@ -103,7 +103,7 @@ public class Warp {
     }
 
     public void setWorld(String world) {
-        this.world=world;
+        this.world = world;
     }
 
     public Location getLocation() {
@@ -111,16 +111,16 @@ public class Warp {
     }
 
     public static String toString(Warp vwarp) { //parsing object Warp to String
-        String line="";
+        String line = "";
 
-        line+=vwarp.vwarpName+";";
-        line+=vwarp.vwarpNumber+";";
-        line+=vwarp.X+";";
-        line+=vwarp.Y+";";
-        line+=vwarp.Z+";";
-        line+=vwarp.yaw+";";
-        line+=vwarp.pitch+";";
-        line+=vwarp.world+";\n";
+        line += vwarp.vwarpName + ";";
+        line += vwarp.vwarpNumber + ";";
+        line += vwarp.X + ";";
+        line += vwarp.Y + ";";
+        line += vwarp.Z + ";";
+        line += vwarp.yaw + ";";
+        line += vwarp.pitch + ";";
+        line += vwarp.world + ";\n";
 
         return line;
     }

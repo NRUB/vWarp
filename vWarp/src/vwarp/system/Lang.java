@@ -63,67 +63,66 @@ public class Lang {
     private static Map<String, String> langPack;
 
     public static void load(JavaPlugin plugin) throws IOException {
-        Yaml lang=new Yaml();
+        Yaml lang = new Yaml();
         InputStream loadLang;
         try {
-            loadLang=new FileInputStream(new File("plugins/vWarp/lang.yml"));
-        }
-        catch (FileNotFoundException FNFex) {
-            InputStream in=plugin.getResource("lang.yml");
-            OutputStream out=new FileOutputStream(new File("plugins/vWarp", "lang.yml"));
-            byte[] buf=new byte[2048];
+            loadLang = new FileInputStream(new File("plugins/vWarp/lang.yml"));
+        } catch (FileNotFoundException FNFex) {
+            InputStream in = plugin.getResource("lang.yml");
+            OutputStream out = new FileOutputStream(new File("plugins/vWarp", "lang.yml"));
+            byte[] buf = new byte[2048];
             int len;
-            while ((len=in.read(buf))>0) {
+            while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
             out.close();
             in.close();
-            loadLang=new FileInputStream(new File("plugins/vWarp/lang.yml"));
+            loadLang = new FileInputStream(new File("plugins/vWarp/lang.yml"));
         }
-        langPack=(Map<String, String>) lang.load(loadLang);
+        langPack = (Map<String, String>) lang.load(loadLang);
 
-        NICP=langPack.get("NOT_IN_COMMAND_PROMPT");
-        CUICP=langPack.get("CORRECT_USE_IN_COMMAND_PROMPT");
-        TBNOvwarp=langPack.get("TOO_BIG_NUMBER_OF_VWARP");
-        BW=langPack.get("BAD_WORLD");
+        NICP = langPack.get("NOT_IN_COMMAND_PROMPT");
+        CUICP = langPack.get("CORRECT_USE_IN_COMMAND_PROMPT");
+        TBNOvwarp = langPack.get("TOO_BIG_NUMBER_OF_VWARP");
+        BW = langPack.get("BAD_WORLD");
 
-        WOTTvwarp=langPack.get("WAIT_ON_TELEPORTATION_TO_VWARP");
-        ATRTvwarp=langPack.get("ABORTED_TELEPORT_REQUEST_TO_VWARP");
-        TTvwarp=langPack.get("TELEPORTED_TO_VWARP");
-        NE=langPack.get("NOT_EXIST");
-        SVID=langPack.get("SELECTED_VWARP_IS_DANGEROUS");
-        SVMBNS=langPack.get("SELECTED_VWARP_MIGHT_BE_NOT_SAFETY");
+        WOTTvwarp = langPack.get("WAIT_ON_TELEPORTATION_TO_VWARP");
+        ATRTvwarp = langPack.get("ABORTED_TELEPORT_REQUEST_TO_VWARP");
+        TTvwarp = langPack.get("TELEPORTED_TO_VWARP");
+        NE = langPack.get("NOT_EXIST");
+        SVID = langPack.get("SELECTED_VWARP_IS_DANGEROUS");
+        SVMBNS = langPack.get("SELECTED_VWARP_MIGHT_BE_NOT_SAFETY");
 
-        CDvwarp=langPack.get("CREATE_DEFAULT_VWARP");
-        CEvwarp=langPack.get("CREATE_EXTRA_VWARP");
+        CDvwarp = langPack.get("CREATE_DEFAULT_VWARP");
+        CEvwarp = langPack.get("CREATE_EXTRA_VWARP");
 
-        DDvwarp=langPack.get("DELETE_DEFAULT_VWARP");
-        DEvwarpF=langPack.get("DELETE_EXTRA_VWARP_FRONT");
-        DEvwarpE=langPack.get("DELETE_EXTRA_VWARP_END");
+        DDvwarp = langPack.get("DELETE_DEFAULT_VWARP");
+        DEvwarpF = langPack.get("DELETE_EXTRA_VWARP_FRONT");
+        DEvwarpE = langPack.get("DELETE_EXTRA_VWARP_END");
 
-        ACDvwarp=langPack.get("ADMIN_CREATE_DEFAULT_VWARP");
-        ACEvwarpF=langPack.get("ADMIN_CREATE_EXTRA_VWARP_FRONT");
-        ACEvwarpE=langPack.get("ADMIN_CREATE_EXTRA_VWARP_END");
+        ACDvwarp = langPack.get("ADMIN_CREATE_DEFAULT_VWARP");
+        ACEvwarpF = langPack.get("ADMIN_CREATE_EXTRA_VWARP_FRONT");
+        ACEvwarpE = langPack.get("ADMIN_CREATE_EXTRA_VWARP_END");
 
-        ADDvwarp=langPack.get("ADMIN_DELETE_DEFAULT_VWARP");
-        ADEvwarpF=langPack.get("ADMIN_DELETE_EXTRA_VWARP_FRONT");
-        ADEvwarpE=langPack.get("ADMIN_DELETE_EXTRA_VWARP_END");
+        ADDvwarp = langPack.get("ADMIN_DELETE_DEFAULT_VWARP");
+        ADEvwarpF = langPack.get("ADMIN_DELETE_EXTRA_VWARP_FRONT");
+        ADEvwarpE = langPack.get("ADMIN_DELETE_EXTRA_VWARP_END");
 
-        RP=langPack.get("RELOAD_PLUGIN");
-        RI=langPack.get("RELOADING_INTERRUPTED");
-        BP=langPack.get("BACKUP_PLUGIN");
-        BI=langPack.get("BACKUP_INTERRUPTED");
-        NB=langPack.get("NO_BACKUPS");
-        SBL=langPack.get("SELECTED_BACKUP_LOADED");
-        SBNF=langPack.get("SELECTED_BACKUP_NOT_FOUND");
-        SBI=langPack.get("SELECTED_BACKUP_INTERRUPTED");
-        DLE=langPack.get("DATABASE_LOAD_ERROR");
+        RP = langPack.get("RELOAD_PLUGIN");
+        RI = langPack.get("RELOADING_INTERRUPTED");
+        BP = langPack.get("BACKUP_PLUGIN");
+        BI = langPack.get("BACKUP_INTERRUPTED");
+        NB = langPack.get("NO_BACKUPS");
+        SBL = langPack.get("SELECTED_BACKUP_LOADED");
+        SBNF = langPack.get("SELECTED_BACKUP_NOT_FOUND");
+        SBI = langPack.get("SELECTED_BACKUP_INTERRUPTED");
+        DLE = langPack.get("DATABASE_LOAD_ERROR");
 
-        NC=langPack.get("NICK_COLOR");
-        LC=langPack.get("LIST_COLOR");
-        IC=langPack.get("INSECURE_COLOR");
-        POL=langPack.get("PAGE_OF_LIST");
-        CUV=langPack.get("CORRECT_USAGE_VWARPS");
+        NC = langPack.get("NICK_COLOR");
+        LC = langPack.get("LIST_COLOR");
+        IC = langPack.get("INSECURE_COLOR");
+        POL = langPack.get("PAGE_OF_LIST");
+        CUV = langPack.get("CORRECT_USAGE_VWARPS");
     }
 
     public static String getMessage(String msg) {

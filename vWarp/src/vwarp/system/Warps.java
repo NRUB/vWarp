@@ -16,8 +16,8 @@ public class Warps implements Comparable<Warps> {
 
     public Warps(String nick, LinkedList numbers) {
         super();
-        this.nick=nick;
-        this.numbers=numbers;
+        this.nick = nick;
+        this.numbers = numbers;
     }
 
     public String getNick() {
@@ -29,7 +29,7 @@ public class Warps implements Comparable<Warps> {
     }
 
     public void setNumbers(LinkedList num) {
-        numbers=num;
+        numbers = num;
     }
 
     public void addNumbers(int num) {
@@ -41,30 +41,30 @@ public class Warps implements Comparable<Warps> {
 
         Collections.sort(numbers);
 
-        String player=Lang.getMessage("NC");
-        player+=nick+" "+Lang.getMessage("LC")+"[";
-        Iterator<Integer> i=numbers.iterator();
+        String player = Lang.getMessage("NC");
+        player += nick + " " + Lang.getMessage("LC") + "[";
+        Iterator<Integer> i = numbers.iterator();
         while (i.hasNext()) {
             Warp last;
-            int number=i.next();
-            int x=0;
+            int number = i.next();
+            int x = 0;
             do {
-                last=VWarp.getWarpList().get(x);
-                if (last.getName().equalsIgnoreCase(nick)&&last.getNumber()==number) {
-                    x=VWarp.getWarpList().size();
+                last = VWarp.getWarpList().get(x);
+                if (last.getName().equalsIgnoreCase(nick) && last.getNumber() == number) {
+                    x = VWarp.getWarpList().size();
                 }
                 x++;
-            } while (x<VWarp.getWarpList().size());
+            } while (x < VWarp.getWarpList().size());
             if (CheckSafety.insecure(last)) {
-                player+=(Lang.getMessage("IC"));
+                player += (Lang.getMessage("IC"));
             }
-            player+=number;
-            player+=Lang.getMessage("LC");
+            player += number;
+            player += Lang.getMessage("LC");
             if (i.hasNext()) {
-                player+=", ";
+                player += ", ";
             }
         }
-        player+="]";
+        player += "]";
         return player;
     }
 

@@ -27,41 +27,39 @@ public class Config {
 
     private static Map<String, Integer> configPack;
     private static List<String> groups;
-    private static int delay=3;
-    private static boolean oneWorld=false;
+    private static int delay = 3;
+    private static boolean oneWorld = false;
     private static List<String> nameOfWorld;
 
     public static void load(JavaPlugin plugin) throws IOException, FileNotFoundException, InvalidConfigurationException {
-        Yaml configMap=new Yaml();
-        YamlConfiguration config=new YamlConfiguration();
+        Yaml configMap = new Yaml();
+        YamlConfiguration config = new YamlConfiguration();
         InputStream loadConfig;
         try {
-            loadConfig=new FileInputStream(new File("plugins/vWarp/config.yml"));
-        }
-        catch (FileNotFoundException FNFex) {
-            InputStream in=plugin.getResource("config.yml");
-            OutputStream out=new FileOutputStream(new File("plugins/vWarp", "config.yml"));
-            byte[] buf=new byte[2048];
+            loadConfig = new FileInputStream(new File("plugins/vWarp/config.yml"));
+        } catch (FileNotFoundException FNFex) {
+            InputStream in = plugin.getResource("config.yml");
+            OutputStream out = new FileOutputStream(new File("plugins/vWarp", "config.yml"));
+            byte[] buf = new byte[2048];
             int len;
-            while ((len=in.read(buf))>0) {
+            while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
             out.close();
             in.close();
-            loadConfig=new FileInputStream(new File("plugins/vWarp/config.yml"));
+            loadConfig = new FileInputStream(new File("plugins/vWarp/config.yml"));
         }
-        configPack=(Map<String, Integer>) configMap.load(loadConfig);
+        configPack = (Map<String, Integer>) configMap.load(loadConfig);
         config.load("plugins/vWarp/config.yml");
-        groups=config.getStringList("groups");
+        groups = config.getStringList("groups");
         try {
-            delay=Integer.parseInt(config.getString("delay"));
+            delay = Integer.parseInt(config.getString("delay"));
+        } catch (NumberFormatException NFex) {
+            log.warning("[" + log.getName() + "] " + "Time of delay is wrong. Uses the default.");
         }
-        catch (NumberFormatException NFex) {
-            log.warning("["+log.getName()+"] "+"Time of delay is wrong. Uses the default.");
-        }
-        oneWorld=config.getBoolean("only_one_world");
+        oneWorld = config.getBoolean("only_one_world");
         if (oneWorld) {
-            nameOfWorld=config.getStringList("name");
+            nameOfWorld = config.getStringList("name");
         }
     }
 
@@ -73,12 +71,12 @@ public class Config {
     }
 
     private static String getGroup(Player player) {
-        int higherNumber=0;
-        String theBestGroup="User";
-        PermissionUser user=PermissionsEx.getUser(player);
-        for (String key:configPack.keySet()) {
-            if (user.inGroup(key)&&higherNumber<configPack.get(key)) {
-                theBestGroup=key;
+        int higherNumber = 0;
+        String theBestGroup = "User";
+        PermissionUser user = PermissionsEx.getUser(player);
+        for (String key : configPack.keySet()) {
+            if (user.inGroup(key) && higherNumber < configPack.get(key)) {
+                theBestGroup = key;
             }
         }
         return theBestGroup;
@@ -96,16 +94,16 @@ public class Config {
     }
 
     public static int waitTime(Player player) {
-        boolean mustWait=true;
-        PermissionUser user=PermissionsEx.getUser(player);
-        String[] perms=user.getGroupsNames();
-        Iterator<String> OP=groups.iterator();
-        while (OP.hasNext()&&mustWait) {
-            String thisGroup=OP.next();
-            for (int i=0; i<perms.length; i++) {
+        boolean mustWait = true;
+        PermissionUser user = PermissionsEx.getUser(player);
+        String[] perms = user.getGroupsNames();
+        Iterator<String> OP = groups.iterator();
+        while (OP.hasNext() && mustWait) {
+            String thisGroup = OP.next();
+            for (int i = 0; i < perms.length; i++) {
                 if (thisGroup.equals(perms[i])) {
-                    mustWait=false;
-                    i=perms.length;
+                    mustWait = false;
+                    i = perms.length;
                 }
             }
         }

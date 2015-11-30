@@ -22,26 +22,25 @@ public class Blocks {
     private static List<String> dangerous;
 
     public static void load(JavaPlugin plugin) throws IOException, FileNotFoundException, InvalidConfigurationException {
-        YamlConfiguration configBlocks=new YamlConfiguration();
+        YamlConfiguration configBlocks = new YamlConfiguration();
         InputStream loadBlocks;
         try {
-            loadBlocks=new FileInputStream(new File("plugins/vWarp/blocks.yml"));
-        }
-        catch (FileNotFoundException FNFex) {
-            InputStream in=plugin.getResource("blocks.yml");
-            OutputStream out=new FileOutputStream(new File("plugins/vWarp", "blocks.yml"));
-            byte[] buf=new byte[2048];
+            loadBlocks = new FileInputStream(new File("plugins/vWarp/blocks.yml"));
+        } catch (FileNotFoundException FNFex) {
+            InputStream in = plugin.getResource("blocks.yml");
+            OutputStream out = new FileOutputStream(new File("plugins/vWarp", "blocks.yml"));
+            byte[] buf = new byte[2048];
             int len;
-            while ((len=in.read(buf))>0) {
+            while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
             out.close();
             in.close();
-            loadBlocks=new FileInputStream(new File("plugins/vWarp/blocks.yml"));
+            loadBlocks = new FileInputStream(new File("plugins/vWarp/blocks.yml"));
         }
         configBlocks.load("plugins/vWarp/blocks.yml");
-        safe=configBlocks.getStringList("safe");
-        dangerous=configBlocks.getStringList("dangerous");
+        safe = configBlocks.getStringList("safe");
+        dangerous = configBlocks.getStringList("dangerous");
     }
 
     public static List<String> getSafeBlockList() {
