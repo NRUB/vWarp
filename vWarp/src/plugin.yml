@@ -1,7 +1,7 @@
 name: vWarp
 author: NRUB
 main: vwarp.VWarp
-version: 3.8.4
+version: 3.8.5
 description: Simply and safe warps for players.
 
 commands:
