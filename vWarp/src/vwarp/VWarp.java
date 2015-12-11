@@ -652,11 +652,10 @@ public final class VWarp extends JavaPlugin {
     }
 
     private void dustTeleportTask(final Location loc, final int counter, final int maxTicks) {
-
+        Random rand = new Random();
         getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
             public void run() {
-                Random rand = new Random();
                 for (int i = 0; i < 40; i++) {
                     double x = rand.nextInt(40) - 20;
                     x /= 100;
@@ -675,11 +674,10 @@ public final class VWarp extends JavaPlugin {
     }
 
     private void dustStartTask(final Location loc, final int counter, final int maxTicks) {
-
+        Random rand = new Random();
         getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
             public void run() {
-                Random rand = new Random();
                 for (int i = 0; i < 40; i++) {
                     double x = rand.nextInt(80) - 40;
                     x /= 100;
