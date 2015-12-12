@@ -19,7 +19,6 @@ public class Warp {
     private String world;
 
     public Warp(String name, int number, double X, double Y, double Z, float yaw, float pitch, String world) { //constructor
-        super();
         vwarpName = name;
         vwarpNumber = number;
         this.X = (double) (((int) X) - 0.5);
@@ -110,17 +109,18 @@ public class Warp {
         return new Location(Bukkit.getWorld(world), X, Y, Z, yaw, pitch);
     }
 
-    public static String toString(Warp vwarp) { //parsing object Warp to String
+    @Override
+    public String toString() { //parsing object Warp to String
         String line = "";
 
-        line += vwarp.vwarpName + ";";
-        line += vwarp.vwarpNumber + ";";
-        line += vwarp.X + ";";
-        line += vwarp.Y + ";";
-        line += vwarp.Z + ";";
-        line += vwarp.yaw + ";";
-        line += vwarp.pitch + ";";
-        line += vwarp.world + ";\n";
+        line += vwarpName + ";";
+        line += vwarpNumber + ";";
+        line += X + ";";
+        line += Y + ";";
+        line += Z + ";";
+        line += yaw + ";";
+        line += pitch + ";";
+        line += world + ";\n";
 
         return line;
     }

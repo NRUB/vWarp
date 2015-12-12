@@ -68,7 +68,7 @@ public class DataBaseRW {
         new File("plugins/vWarp", "temp.tmp").createNewFile();
         BufferedWriter nextRecord = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("plugins/vWarp/temp.tmp", true), "UTF-8"));
         while (iterator < VWarp.getWarpList().size()) {
-            nextRecord.write(Warp.toString((VWarp.getWarpList().get((int) iterator))));
+            nextRecord.write((VWarp.getWarpList().get((int) iterator)).toString());
             iterator++;
         }
         nextRecord.close();
@@ -96,7 +96,7 @@ public class DataBaseRW {
         new File("plugins/vWarp", ("vWarpBackup " + date + ".back")).createNewFile();
         BufferedWriter nextRecord = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(("plugins/vWarp/vWarpBackup " + date + ".back"), true), "UTF-8"));
         while (iterator < VWarp.getWarpList().size()) {
-            nextRecord.write(Warp.toString((VWarp.getWarpList().get((int) iterator))));
+            nextRecord.write((VWarp.getWarpList().get((int) iterator)).toString());
             iterator++;
         }
         nextRecord.close();
