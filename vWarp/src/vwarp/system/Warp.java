@@ -111,17 +111,25 @@ public class Warp {
 
     @Override
     public String toString() { //parsing object Warp to String
-        String line = "";
+        StringBuilder line = new StringBuilder(64);
 
-        line += vwarpName + ";";
-        line += vwarpNumber + ";";
-        line += X + ";";
-        line += Y + ";";
-        line += Z + ";";
-        line += yaw + ";";
-        line += pitch + ";";
-        line += world + ";\n";
+        line.append(vwarpName);
+        line.append(";");
+        line.append(vwarpNumber);
+        line.append(";");
+        line.append(X);
+        line.append(";");
+        line.append(Y);
+        line.append(";");
+        line.append(Z);
+        line.append(";");
+        line.append(yaw);
+        line.append(";");
+        line.append(pitch);
+        line.append(";");
+        line.append(world);
+        line.append(";\n");
 
-        return line;
+        return line.toString();
     }
 }

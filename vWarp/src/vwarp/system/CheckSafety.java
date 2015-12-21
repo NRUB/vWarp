@@ -1,6 +1,7 @@
 package vwarp.system;
 
 import java.util.List;
+import org.bukkit.Bukkit;
 import static org.bukkit.Bukkit.getWorld;
 import org.bukkit.Location;
 
@@ -123,5 +124,11 @@ public class CheckSafety {
         checkZ = loc.getBlockZ() - 3;
 
         return !canBeRebornHere() || isDangerous();
+    }
+
+    public static void validate(Warp warp) {
+        if (Bukkit.getWorld(warp.getWorld()) == null) {
+            throw new NullPointerException();
+        }
     }
 }

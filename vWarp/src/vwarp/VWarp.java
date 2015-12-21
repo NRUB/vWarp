@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,12 +60,37 @@ public final class VWarp extends JavaPlugin {
             Blocks.load(this);
         } catch (IOException | InvalidConfigurationException IOex) {
         }
-        try {
-            for (Warp v : warpList) {
-                CheckSafety.checkSafety(v);
+        List<Warp> corrupted = new LinkedList<>();
+        for (Warp v : warpList) {
+            try {
+                CheckSafety.validate(v);
+
+            } catch (NullPointerException NPex) {
+                corrupted.add(v);
             }
-        } catch (NullPointerException NPex) {
+        }
+        if (!corrupted.isEmpty()) {
             log.log(Level.WARNING, "[{0}] \u001b[31;1m{1}\u001b[0m", new Object[]{log.getName(), Lang.getMessage("DLE")});
+            for (Warp w : corrupted) {
+                StringBuilder line = new StringBuilder(50);
+                line.append(w.getName());
+                line.append(";");
+                line.append(w.getNumber());
+                line.append(";");
+                line.append(w.getX());
+                line.append(";");
+                line.append(w.getY());
+                line.append(";");
+                line.append(w.getZ());
+                line.append(";");
+                line.append(w.getYaw());
+                line.append(";");
+                line.append(w.getPitch());
+                line.append(";");
+                line.append(w.getWorld());
+                line.append(";");
+                log.log(Level.WARNING, "[\u001b[31;1m{0}\u001b[0m] {1}", new Object[]{log.getName(), line.toString()});
+            }
         }
         try {
             Metrics metrics = new Metrics(this);
