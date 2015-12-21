@@ -1,7 +1,7 @@
 name: vWarp
 author: NRUB
 main: vwarp.VWarp
-version: 3.8.9
+version: 3.10.2
 description: Simply and safe warps for players.
 
 commands:
@@ -27,7 +27,7 @@ commands:
         permission-message: You do not have sufficient permission!
     adelvwarp:
         description: removing of vwarp for user by the administrator
-        usage: /<command> [nick] lub /<comamnd> [nick] [nr]
+        usage: /<command> [nick] lub /<command> [nick] [nr]
         permission: vwarp.adelvwarp
         permission-message: You do not have sufficient permission!
     vwarps:
@@ -55,6 +55,11 @@ commands:
         usage: /<command> [date and time]
         permission: vwarp.vbackuprestore
         permission-message: You do not have sufficient permission!
+    vupdate:
+        description: forcing update plugin
+        usage: /<command>
+        permission: vwarp.vupdate
+        permission-message: You do not have sufficient permission!
 
 permisions:
     vwarp:
@@ -77,3 +82,5 @@ permisions:
         default: false
     vbackuprestore:
         default: false
+    vupdate:
+        defualt: false

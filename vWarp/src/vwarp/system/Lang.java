@@ -60,6 +60,10 @@ public class Lang {
     private static String SBI; //SELECTED_BACKUP_INTERRUPTED
     private static String DLE; //DATABASE_LOAD_ERROR
 
+    private static String UAL; //UPDATE_ANNOUNCEMENT
+    private static String UAM; //UPDATE_ANNOUNCEMENT
+    private static String UAR; //UPDATE_ANNOUNCEMENT
+
     private static Map<String, String> langPack;
 
     public static void load(JavaPlugin plugin) throws IOException {
@@ -68,15 +72,13 @@ public class Lang {
         try {
             loadLang = new FileInputStream(new File("plugins/vWarp/lang.yml"));
         } catch (FileNotFoundException FNFex) {
-            InputStream in = plugin.getResource("lang.yml");
-            OutputStream out = new FileOutputStream(new File("plugins/vWarp", "lang.yml"));
-            byte[] buf = new byte[2048];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
+            try (InputStream in = plugin.getResource("lang.yml"); OutputStream out = new FileOutputStream(new File("plugins/vWarp", "lang.yml"))) {
+                byte[] buf = new byte[2048];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
             }
-            out.close();
-            in.close();
             loadLang = new FileInputStream(new File("plugins/vWarp/lang.yml"));
         }
         langPack = (Map<String, String>) lang.load(loadLang);
@@ -123,6 +125,10 @@ public class Lang {
         IC = langPack.get("INSECURE_COLOR");
         POL = langPack.get("PAGE_OF_LIST");
         CUV = langPack.get("CORRECT_USAGE_VWARPS");
+
+        UAL = langPack.get("UPDATE_ANNOUNCEMENT_LEFT");
+        UAM = langPack.get("UPDATE_ANNOUNCEMENT_MIDDLE");
+        UAR = langPack.get("UPDATE_ANNOUNCEMENT_RIGHT");
     }
 
     public static String getMessage(String msg) {
@@ -204,6 +210,13 @@ public class Lang {
                 return POL;
             case "CUV":
                 return CUV;
+
+            case "UAL":
+                return UAL;
+            case "UAM":
+                return UAM;
+            case "UAR":
+                return UAR;
         }
         return null;
     }

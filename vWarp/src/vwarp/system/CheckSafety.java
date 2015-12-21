@@ -43,18 +43,22 @@ public class CheckSafety {
     }
 
     private static boolean canBeRebornHere() { //return true if player will have enough space for reborn
-        Location loc = new Location(getWorld(world), X - 1, Y, Z - 1);
-        int baseX = loc.getBlockX();
-        int baseY = loc.getBlockY();
-        int baseZ = loc.getBlockZ();
+        try {
+            Location loc = new Location(getWorld(world), X - 1, Y, Z - 1);
+            int baseX = loc.getBlockX();
+            int baseY = loc.getBlockY();
+            int baseZ = loc.getBlockZ();
 
-        int underTwoID = new Location(loc.getWorld(), baseX, baseY - 2, baseZ).getBlock().getTypeId(); //cannot be air and must be safe
-        int underOneID = new Location(loc.getWorld(), baseX, baseY - 1, baseZ).getBlock().getTypeId(); //must be obsidian
-        int zeroID = new Location(loc.getWorld(), baseX, baseY, baseZ).getBlock().getTypeId(); //must be air
-        int headID = new Location(loc.getWorld(), baseX, baseY + 1, baseZ).getBlock().getTypeId(); //must be air
-        int upHeadID = new Location(loc.getWorld(), baseX, baseY + 2, baseZ).getBlock().getTypeId(); //must be air
+            int underTwoID = new Location(loc.getWorld(), baseX, baseY - 2, baseZ).getBlock().getTypeId(); //cannot be air and must be safe
+            int underOneID = new Location(loc.getWorld(), baseX, baseY - 1, baseZ).getBlock().getTypeId(); //must be obsidian
+            int zeroID = new Location(loc.getWorld(), baseX, baseY, baseZ).getBlock().getTypeId(); //must be air
+            int headID = new Location(loc.getWorld(), baseX, baseY + 1, baseZ).getBlock().getTypeId(); //must be air
+            int upHeadID = new Location(loc.getWorld(), baseX, baseY + 2, baseZ).getBlock().getTypeId(); //must be air
 
-        return (isOnList(underTwoID, safe) && underTwoID != 0 && underOneID == 49 && zeroID == 0 && headID == 0 && upHeadID == 0);
+            return (isOnList(underTwoID, safe) && underTwoID != 0 && underOneID == 49 && zeroID == 0 && headID == 0 && upHeadID == 0);
+        } catch (NullPointerException NPex) {
+            return false;
+        }
     }
 
     private static boolean isDangerous() { //return true if vwarp is dangerous (near are blocks from dangerous-list)

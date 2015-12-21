@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.bukkit.Bukkit.getWorld;
 import org.bukkit.Effect;
@@ -24,7 +25,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import vwarp.listeners.JoinListener;
+import vwarp.utils.Metrics;
+import vwarp.utils.Updater;
+import vwarp.utils.Updater.UpdateType;
 
 /**
  *
@@ -36,9 +42,13 @@ public final class VWarp extends JavaPlugin {
     private static final ArrayList<Warp> warpList = new ArrayList<>();
     private boolean wasAddedOrRemoved = true;
     private final LinkedList<Warps> linkedListVWarps = new LinkedList<>();
+    private static Updater updater;
 
     @Override
     public void onEnable() {
+        PluginManager listeners = getServer().getPluginManager();
+        listeners.registerEvents(new JoinListener(), this);
+
         if (!(new File("plugins", "vWarp").isDirectory())) {
             new File("plugins", "vWarp").mkdir();
         }
@@ -47,17 +57,27 @@ public final class VWarp extends JavaPlugin {
             Lang.load(this);
             Config.load(this);
             Blocks.load(this);
-        } catch (IOException IOex) {
-        } catch (InvalidConfigurationException ICex) {
+        } catch (IOException | InvalidConfigurationException IOex) {
         }
         try {
             for (Warp v : warpList) {
                 CheckSafety.checkSafety(v);
             }
         } catch (NullPointerException NPex) {
-            log.warning("[" + log.getName() + "] \033[31;1m" + Lang.getMessage("DLE") + "\033[0m");
+            log.log(Level.WARNING, "[{0}] \u001b[31;1m{1}\u001b[0m", new Object[]{log.getName(), Lang.getMessage("DLE")});
         }
-        log.info("[" + log.getName() + "] " + "vWarp started");
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException IOex) {
+            log.log(Level.WARNING, "[{0}" + "] " + "Metrics failed!", log.getName());
+        }
+        updater = new Updater(this, 96502, this.getFile(), UpdateType.NO_DOWNLOAD, false);
+        if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+            log.log(Level.WARNING, "[vWarp] {0}{1}{2}http://dev.bukkit.org/bukkit-plugins/vwarp/{3}", new Object[]{Lang.getMessage("UAL"), updater.getLatestName(), Lang.getMessage("UAM"), Lang.getMessage("UAR")});
+        }
+
+        log.log(Level.INFO, "[{0}" + "] " + "vWarp started", log.getName());
     }
 
     @Override
@@ -68,7 +88,7 @@ public final class VWarp extends JavaPlugin {
         } catch (IOException IOex) {
         }
 
-        log.info("[" + log.getName() + "] " + "vWarp stopped");
+        log.log(Level.INFO, "[{0}" + "] " + "vWarp stopped", log.getName());
     }
 
     @Override
@@ -103,6 +123,9 @@ public final class VWarp extends JavaPlugin {
         else if (cmd.getName().equalsIgnoreCase("vbackuprestore")) { //restore selected backup
             return vbackuprestore(sender, args);
         }
+        else if (cmd.getName().equalsIgnoreCase("vupdate")) { //update plugin
+            return vupdate(sender);
+        }
         return false;
     }
 
@@ -116,6 +139,10 @@ public final class VWarp extends JavaPlugin {
 
     public static void clearWarpList() {
         warpList.clear();
+    }
+
+    public static Updater getUpdater() {
+        return updater;
     }
 
     private boolean vwarp(final CommandSender sender, String[] args) {
@@ -151,32 +178,26 @@ public final class VWarp extends JavaPlugin {
                         if (!safety.equals("SVID")) {
                             if (Config.waitTime((Player) sender) != 0) {
                                 sender.sendMessage(Lang.getMessage("WOTTvwarp"));
-                            }
-
-                            getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() { //delayed teleport task
-                                @Override
-                                public void run() {
-                                    int[] B = new int[3];
-                                    B[0] = (int) ((Player) sender).getLocation().getX();
-                                    B[1] = (int) ((Player) sender).getLocation().getY();
-                                    B[2] = (int) ((Player) sender).getLocation().getZ();
-
-                                    if (A[0] == B[0] && A[1] == B[1] && A[2] == B[2]) {
-                                        ((Player) sender).teleport(loc);
-                                        sender.sendMessage(Lang.getMessage("TTvwarp") + warpList.get(j).getName() + "!");
-                                    }
-                                    else {
-                                        sender.sendMessage(Lang.getMessage("ATRTvwarp"));
-                                    }
-                                }
-                            }, 20 * Config.waitTime((Player) sender));
-
-                            if (Config.waitTime((Player) sender) != 0) {
                                 int counter = 0;
                                 int maxTicks = Config.waitTime((Player) sender) * 20;
                                 dustTeleportTask(loc, counter, maxTicks - 30);
                                 dustTeleportTask(((Player) sender).getLocation(), counter, maxTicks);
                             }
+
+                            getServer().getScheduler().scheduleSyncDelayedTask(this, () -> { //delayed teleport task
+                                int[] B = new int[3];
+                                B[0] = (int) ((Player) sender).getLocation().getX();
+                                B[1] = (int) ((Player) sender).getLocation().getY();
+                                B[2] = (int) ((Player) sender).getLocation().getZ();
+
+                                if (A[0] == B[0] && A[1] == B[1] && A[2] == B[2]) {
+                                    ((Player) sender).teleport(loc);
+                                    sender.sendMessage(Lang.getMessage("TTvwarp") + warpList.get(j).getName() + "!");
+                                }
+                                else {
+                                    sender.sendMessage(Lang.getMessage("ATRTvwarp"));
+                                }
+                            }, 20 * Config.waitTime((Player) sender));
                         }
                         return true;
                     }
@@ -218,32 +239,26 @@ public final class VWarp extends JavaPlugin {
                         if (!safety.equals("SVID")) {
                             if (Config.waitTime((Player) sender) != 0) {
                                 sender.sendMessage(Lang.getMessage("WOTTvwarp"));
-                            }
-
-                            getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() { //delayed teleport task
-                                @Override
-                                public void run() {
-                                    int[] B = new int[3];
-                                    B[0] = (int) ((Player) sender).getLocation().getX();
-                                    B[1] = (int) ((Player) sender).getLocation().getY();
-                                    B[2] = (int) ((Player) sender).getLocation().getZ();
-
-                                    if (A[0] == B[0] && A[1] == B[1] && A[2] == B[2]) {
-                                        ((Player) sender).teleport(loc);
-                                        sender.sendMessage(Lang.getMessage("TTvwarp") + warpList.get(j).getName() + " - " + nr + "!");
-                                    }
-                                    else {
-                                        sender.sendMessage(Lang.getMessage("ATRTvwarp"));
-                                    }
-                                }
-                            }, 20 * Config.waitTime((Player) sender));
-
-                            if (Config.waitTime((Player) sender) != 0) {
                                 int counter = 0;
                                 int maxTicks = Config.waitTime((Player) sender) * 20;
                                 dustTeleportTask(loc, counter, maxTicks - 30);
                                 dustTeleportTask(((Player) sender).getLocation(), counter, maxTicks);
                             }
+
+                            getServer().getScheduler().scheduleSyncDelayedTask(this, () -> { //delayed teleport task
+                                int[] B = new int[3];
+                                B[0] = (int) ((Player) sender).getLocation().getX();
+                                B[1] = (int) ((Player) sender).getLocation().getY();
+                                B[2] = (int) ((Player) sender).getLocation().getZ();
+
+                                if (A[0] == B[0] && A[1] == B[1] && A[2] == B[2]) {
+                                    ((Player) sender).teleport(loc);
+                                    sender.sendMessage((nr == 0) ? (Lang.getMessage("TTvwarp") + warpList.get(j).getName() + "!") : (Lang.getMessage("TTvwarp") + warpList.get(j).getName() + " - " + nr + "!"));
+                                }
+                                else {
+                                    sender.sendMessage(Lang.getMessage("ATRTvwarp"));
+                                }
+                            }, 20 * Config.waitTime((Player) sender));
                         }
                         return true;
                     }
@@ -281,10 +296,11 @@ public final class VWarp extends JavaPlugin {
                 int nr;
                 try {
                     nr = parseInt(args[0]);
+                    nr = Math.abs(nr);
                 } catch (NumberFormatException NFex) { //first argument is not a number
                     return false;
                 }
-                if (nr > 0 && canSetVWarpNumberException((Player) sender, nr) && canSetVWarpWorldException((Player) sender)) {
+                if (canSetVWarpNumberException((Player) sender, nr) && canSetVWarpWorldException((Player) sender)) {
                     Warp temp = new Warp(sender.getName(), nr, ((Player) sender).getLocation().getX(), ((Player) sender).getLocation().getY(), ((Player) sender).getLocation().getZ(), ((Player) sender).getLocation().getYaw(), ((Player) sender).getLocation().getPitch(), ((Player) sender).getWorld().getName());
                     for (int i = 0; i < warpList.size(); i++) {
                         if (warpList.get(i).getName().equals(temp.getName()) && (warpList.get(i).getNumber()) == (temp.getNumber())) {
@@ -293,7 +309,7 @@ public final class VWarp extends JavaPlugin {
                         }
                     }
                     warpList.add(temp);
-                    sender.sendMessage(Lang.getMessage("CEvwarp") + nr + ".");
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage("CDvwarp")) : (Lang.getMessage("CEvwarp") + nr + "."));
                     if (!CheckSafety.insecure(temp)) {
                         dustStartTask(temp.getLocation(), 0, 30);
                     }
@@ -336,18 +352,20 @@ public final class VWarp extends JavaPlugin {
                 int nr;
                 try {
                     nr = parseInt(args[0]);
+                    nr = Math.abs(nr);
+
+                    for (int i = 0; i < warpList.size(); i++) {
+                        if (warpList.get(i).getName().equals(sender.getName()) && (warpList.get(i).getNumber()) == nr) {
+                            warpList.remove(i);
+                            i = warpList.size();
+                        }
+                    }
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage("DDvwarp")) : (Lang.getMessage("DEvwarpF") + nr + Lang.getMessage("DEvwarpE")));
+                    wasAddedOrRemoved = true;
+                    return true;
                 } catch (NumberFormatException NFex) { //first argument is not a number
                     return false;
                 }
-                for (int i = 0; i < warpList.size(); i++) {
-                    if (warpList.get(i).getName().equals(sender.getName()) && (warpList.get(i).getNumber()) == nr) {
-                        warpList.remove(i);
-                        i = warpList.size();
-                    }
-                }
-                sender.sendMessage(Lang.getMessage("DEvwarpF") + nr + Lang.getMessage("DEvwarpE"));
-                wasAddedOrRemoved = true;
-                return true;
             }
             else { //typing too many arguments
                 return false;
@@ -384,10 +402,8 @@ public final class VWarp extends JavaPlugin {
                 int nr;
                 try {
                     nr = parseInt(args[1]);
-                } catch (NumberFormatException NFex) { //second argument is not a number
-                    return false;
-                }
-                if (nr > 0) {
+                    nr = Math.abs(nr);
+
                     Warp temp = new Warp(args[0], nr, ((Player) sender).getLocation().getX(), ((Player) sender).getLocation().getY(), ((Player) sender).getLocation().getZ(), ((Player) sender).getLocation().getYaw(), ((Player) sender).getLocation().getPitch(), ((Player) sender).getWorld().getName());
                     for (int i = 0; i < warpList.size(); i++) {
                         if (warpList.get(i).getName().equals(temp.getName()) & (warpList.get(i).getNumber()) == nr) {
@@ -396,16 +412,14 @@ public final class VWarp extends JavaPlugin {
                         }
                     }
                     warpList.add(temp);
-                    sender.sendMessage(Lang.getMessage("ACEvwarpF") + nr + Lang.getMessage("ACEvwarpE") + args[0]);
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage("ACDvwarp") + args[0]) : (Lang.getMessage("ACEvwarpF") + nr + Lang.getMessage("ACEvwarpE") + args[0]));
                     if (!CheckSafety.insecure(temp)) {
                         dustStartTask(temp.getLocation(), 0, 30);
                     }
                     wasAddedOrRemoved = true;
                     return true;
-                }
-                else { //typing too large number of vwarp
-                    sender.sendMessage(Lang.getMessage("TBNOvwarp"));
-                    return true;
+                } catch (NumberFormatException NFex) { //second argument is not a number
+                    return false;
                 }
             }
             else { //typing too many arguments
@@ -438,18 +452,20 @@ public final class VWarp extends JavaPlugin {
                 int nr;
                 try {
                     nr = parseInt(args[1]);
+                    nr = Math.abs(nr);
+
+                    for (int i = 0; i < warpList.size(); i++) {
+                        if (warpList.get(i).getName().equals(args[0]) && (warpList.get(i).getNumber()) == nr) {
+                            warpList.remove(i);
+                            i = warpList.size();
+                        }
+                    }
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage("ADDvwarp") + args[0]) : (Lang.getMessage("ADEvwarpF") + nr + Lang.getMessage("ADEvwarpE") + args[0]));
+                    wasAddedOrRemoved = true;
+                    return true;
                 } catch (NumberFormatException NFex) { //second argument is not a number
                     return false;
                 }
-                for (int i = 0; i < warpList.size(); i++) {
-                    if (warpList.get(i).getName().equals(args[0]) && (warpList.get(i).getNumber()) == nr) {
-                        warpList.remove(i);
-                        i = warpList.size();
-                    }
-                }
-                sender.sendMessage(Lang.getMessage("ADEvwarpF") + nr + Lang.getMessage("ADEvwarpE") + args[0]);
-                wasAddedOrRemoved = true;
-                return true;
             }
             else { //typing too many arguments
                 return false;
@@ -485,7 +501,7 @@ public final class VWarp extends JavaPlugin {
                         i = warpList.size();
                     }
                 }
-                sender.sendMessage(Lang.getMessage("ADEvwarpF") + nr + Lang.getMessage("ADEvwarpE") + args[0]);
+                sender.sendMessage((nr == 0) ? (Lang.getMessage("ADDvwarp") + args[0]) : (Lang.getMessage("ADEvwarpF") + nr + Lang.getMessage("ADEvwarpE") + args[0]));
                 wasAddedOrRemoved = true;
                 return true;
             }
@@ -509,20 +525,26 @@ public final class VWarp extends JavaPlugin {
                 int nr;
                 try {
                     nr = parseInt(args[0]);
+                    nr = Math.abs(nr);
+
+                    if (nr <= 0) {
+                        sender.sendMessage(Lang.getMessage("CUV"));
+                        return true;
+                    }
+                    sender.sendMessage(Lang.getMessage("POL") + nr);
+                    nr = (--nr) * 15;
+                    if (nr > linkedListVWarps.size()) {
+                        return true;
+                    }
+                    for (int count = 0; count < 15; count++) {
+                        if (nr + count < linkedListVWarps.size()) {
+                            sender.sendMessage(linkedListVWarps.get(count + nr).toString());
+                        }
+                    }
+                    return true;
                 } catch (NumberFormatException NFex) { //second argument is not a number
                     return false;
                 }
-                sender.sendMessage(Lang.getMessage("POL") + nr);
-                nr = (--nr) * 15;
-                if (nr > linkedListVWarps.size()) {
-                    return true;
-                }
-                for (int count = 0; count < 15; count++) {
-                    if (nr + count < linkedListVWarps.size()) {
-                        sender.sendMessage(linkedListVWarps.get(count + nr).toString());
-                    }
-                }
-                return true;
             }
             else {
                 return false;
@@ -594,7 +616,7 @@ public final class VWarp extends JavaPlugin {
 
     public boolean vbackuprestore(CommandSender sender, String[] dateAndTime) {
         if (!(sender instanceof Player) || sender.isOp()) { //use in command prompt or by the OP player
-            if (dateAndTime.length > 1) {
+            if (dateAndTime.length == 2) {
                 try {
                     DataBaseRW.loadBackup(sender, dateAndTime);
                     reloadList();
@@ -604,6 +626,18 @@ public final class VWarp extends JavaPlugin {
             }
             else {
                 return false;
+            }
+        }
+        else {
+            sender.sendMessage(getCommand("vbackuprestore").getPermissionMessage());
+        }
+        return true;
+    }
+
+    public boolean vupdate(CommandSender sender) {
+        if (!(sender instanceof Player) || sender.hasPermission("vwarp.vupdate")) { //use in command prompt or by authorized player
+            if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+                updater = new Updater(this, 96502, this.getFile(), UpdateType.NO_VERSION_CHECK, true);
             }
         }
         else {
@@ -653,42 +687,36 @@ public final class VWarp extends JavaPlugin {
 
     private void dustTeleportTask(final Location loc, final int counter, final int maxTicks) {
         Random rand = new Random();
-        getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 40; i++) {
-                    double x = rand.nextInt(40) - 20;
-                    x /= 100;
-                    double y = rand.nextInt(200);
-                    y /= 100;
-                    double z = rand.nextInt(40) - 20;
-                    z /= 100;
-                    Location effect = new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y, loc.getZ() + z);
-                    (effect.getWorld()).playEffect(effect, Effect.PORTAL, 10);
-                }
-                if (counter <= maxTicks) {
-                    dustTeleportTask(loc, counter + 1, maxTicks);
-                }
+        getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+            for (int i = 0; i < 40; i++) {
+                double x = rand.nextInt(40) - 20;
+                x /= 100;
+                double y = rand.nextInt(200);
+                y /= 100;
+                double z = rand.nextInt(40) - 20;
+                z /= 100;
+                Location effect = new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y, loc.getZ() + z);
+                (effect.getWorld()).playEffect(effect, Effect.PORTAL, 10);
+            }
+            if (counter <= maxTicks) {
+                dustTeleportTask(loc, counter + 1, maxTicks);
             }
         }, 1);
     }
 
     private void dustStartTask(final Location loc, final int counter, final int maxTicks) {
         Random rand = new Random();
-        getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 40; i++) {
-                    double x = rand.nextInt(80) - 40;
-                    x /= 100;
-                    double z = rand.nextInt(80) - 40;
-                    z /= 100;
-                    Location effect = new Location(loc.getWorld(), loc.getX() + x, loc.getY(), loc.getZ() + z);
-                    (effect.getWorld()).playEffect(effect, Effect.PORTAL, 10);
-                }
-                if (counter <= maxTicks) {
-                    dustStartTask(loc, counter + 1, maxTicks);
-                }
+        getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+            for (int i = 0; i < 40; i++) {
+                double x = rand.nextInt(80) - 40;
+                x /= 100;
+                double z = rand.nextInt(80) - 40;
+                z /= 100;
+                Location effect = new Location(loc.getWorld(), loc.getX() + x, loc.getY(), loc.getZ() + z);
+                (effect.getWorld()).playEffect(effect, Effect.PORTAL, 10);
+            }
+            if (counter <= maxTicks) {
+                dustStartTask(loc, counter + 1, maxTicks);
             }
         }, 1);
     }

@@ -16,6 +16,7 @@ import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import static vwarp.VWarp.log;
@@ -51,27 +52,27 @@ public class DataBaseRW {
                         VWarp.addWarp(new Warp(name, nr, x, y, z, yaw, pitch, world));
                     }
                     else {
-                        log.warning("[" + log.getName() + "] " + line.concat(" is corrupted!"));
+                        log.log(Level.WARNING, "[{0}] {1}", new Object[]{log.getName(), line.concat(" is corrupted!")});
                     }
                 }
             } while (vWarpDataBase.ready());
             vWarpDataBase.close();
-            log.info("[" + log.getName() + "] " + "vWarp database is loaded!");
+            log.log(Level.INFO, "[{0}" + "] " + "vWarp database is loaded!", log.getName());
         } catch (FileNotFoundException FNFex) {
             new File("plugins/vWarp", "vWarp.csv").createNewFile();
-            log.info("[" + log.getName() + "] " + "File with database of vWarps was not found!");
+            log.log(Level.INFO, "[{0}" + "] " + "File with database of vWarps was not found!", log.getName());
         }
     }
 
     public static void writeFile() throws UnsupportedEncodingException, FileNotFoundException, IOException { //export Warp list to file
         int iterator = 0;
         new File("plugins/vWarp", "temp.tmp").createNewFile();
-        BufferedWriter nextRecord = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("plugins/vWarp/temp.tmp", true), "UTF-8"));
-        while (iterator < VWarp.getWarpList().size()) {
-            nextRecord.write((VWarp.getWarpList().get((int) iterator)).toString());
-            iterator++;
+        try (BufferedWriter nextRecord = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("plugins/vWarp/temp.tmp", true), "UTF-8"))) {
+            while (iterator < VWarp.getWarpList().size()) {
+                nextRecord.write((VWarp.getWarpList().get((int) iterator)).toString());
+                iterator++;
+            }
         }
-        nextRecord.close();
         new File("plugins/vWarp/vWarp.csv").delete();
         new File("plugins/vWarp/temp.tmp").renameTo(new File("plugins/vWarp/vWarp.csv"));
     }
@@ -94,12 +95,12 @@ public class DataBaseRW {
         int iterator = 0;
 
         new File("plugins/vWarp", ("vWarpBackup " + date + ".back")).createNewFile();
-        BufferedWriter nextRecord = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(("plugins/vWarp/vWarpBackup " + date + ".back"), true), "UTF-8"));
-        while (iterator < VWarp.getWarpList().size()) {
-            nextRecord.write((VWarp.getWarpList().get((int) iterator)).toString());
-            iterator++;
+        try (BufferedWriter nextRecord = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(("plugins/vWarp/vWarpBackup " + date + ".back"), true), "UTF-8"))) {
+            while (iterator < VWarp.getWarpList().size()) {
+                nextRecord.write((VWarp.getWarpList().get((int) iterator)).toString());
+                iterator++;
+            }
         }
-        nextRecord.close();
     }
 
     public static void getBackupsList(CommandSender sender) {

@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -38,15 +39,13 @@ public class Config {
         try {
             loadConfig = new FileInputStream(new File("plugins/vWarp/config.yml"));
         } catch (FileNotFoundException FNFex) {
-            InputStream in = plugin.getResource("config.yml");
-            OutputStream out = new FileOutputStream(new File("plugins/vWarp", "config.yml"));
-            byte[] buf = new byte[2048];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
+            try (InputStream in = plugin.getResource("config.yml"); OutputStream out = new FileOutputStream(new File("plugins/vWarp", "config.yml"))) {
+                byte[] buf = new byte[2048];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
             }
-            out.close();
-            in.close();
             loadConfig = new FileInputStream(new File("plugins/vWarp/config.yml"));
         }
         configPack = (Map<String, Integer>) configMap.load(loadConfig);
@@ -55,7 +54,7 @@ public class Config {
         try {
             delay = Integer.parseInt(config.getString("delay"));
         } catch (NumberFormatException NFex) {
-            log.warning("[" + log.getName() + "] " + "Time of delay is wrong. Uses the default.");
+            log.log(Level.WARNING, "[{0}" + "] " + "Time of delay is wrong. Uses the default.", log.getName());
         }
         oneWorld = config.getBoolean("only_one_world");
         if (oneWorld) {

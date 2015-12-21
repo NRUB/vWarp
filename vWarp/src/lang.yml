@@ -42,3 +42,7 @@ LIST_COLOR: "§e"
 INSECURE_COLOR: "§4"
 PAGE_OF_LIST: "Lista vwarp'ow - strona "
 CORRECT_USAGE_VWARPS: "Ta komenda pokazuje liste wszystkich dostepnych vwarpow. Wpisz /vwarps 1 aby zobaczyc nastepna strone"
+
+UPDATE_ANNOUNCEMENT_LEFT: "Aktualizacja "
+UPDATE_ANNOUNCEMENT_MIDDLE: " jest dostepna do pobrania z "
+UPDATE_ANNOUNCEMENT_RIGHT: ". Zobacz ostatnie zmiany i badz na biezaco!"
