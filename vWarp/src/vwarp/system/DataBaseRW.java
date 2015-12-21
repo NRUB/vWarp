@@ -40,20 +40,22 @@ public class DataBaseRW {
                     String[] temp = line.split(";");
 
                     if (temp.length == 8) { //vwarp must have 8 args(nickname, number of vwarp, posX, posY, posZ, Yaw, Pitch, World name)
-                        String name = temp[0];
-                        int nr = parseInt(temp[1]);
-                        double x = parseDouble(temp[2]);
-                        double y = parseDouble(temp[3]);
-                        double z = parseDouble(temp[4]);
-                        float yaw = parseFloat(temp[5]);
-                        float pitch = parseFloat(temp[6]);
-                        String world = temp[7];
+                        try {
+                            String name = temp[0];
+                            int nr = parseInt(temp[1]);
+                            double x = parseDouble(temp[2]);
+                            double y = parseDouble(temp[3]);
+                            double z = parseDouble(temp[4]);
+                            float yaw = parseFloat(temp[5]);
+                            float pitch = parseFloat(temp[6]);
+                            String world = temp[7];
 
-                        VWarp.addWarp(new Warp(name, nr, x, y, z, yaw, pitch, world));
+                            VWarp.addWarp(new Warp(name, nr, x, y, z, yaw, pitch, world));
+                            continue;
+                        } catch (NumberFormatException NFex) {
+                        }
                     }
-                    else {
-                        log.log(Level.WARNING, "[{0}] {1}", new Object[]{log.getName(), line.concat(" is corrupted!")});
-                    }
+                    log.log(Level.WARNING, "[{0}] {1}", new Object[]{log.getName(), line.concat(" is corrupted!")});
                 }
             } while (vWarpDataBase.ready());
             vWarpDataBase.close();
