@@ -60,9 +60,9 @@ public class Lang {
     private static String SBI; //SELECTED_BACKUP_INTERRUPTED
     private static String DLE; //DATABASE_LOAD_ERROR
 
-    private static String UAL; //UPDATE_ANNOUNCEMENT
-    private static String UAM; //UPDATE_ANNOUNCEMENT
-    private static String UAR; //UPDATE_ANNOUNCEMENT
+    private static String UAL; //UPDATE_ANNOUNCEMENT_LEFT
+    private static String UAM; //UPDATE_ANNOUNCEMENT_MIDDLE
+    private static String UAR; //UPDATE_ANNOUNCEMENT_RIGHT
 
     private static Map<String, String> langPack;
 
