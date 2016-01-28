@@ -2,7 +2,7 @@ package vwarp.system;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 import vwarp.VWarp;
 
 /**
@@ -12,9 +12,9 @@ import vwarp.VWarp;
 public class Warps implements Comparable<Warps> {
 
     private final String nick;
-    private LinkedList<Integer> numbers;
+    private List<Integer> numbers;
 
-    public Warps(String nick, LinkedList numbers) {
+    public Warps(String nick, List<Integer> numbers) {
         super();
         this.nick = nick;
         this.numbers = numbers;
@@ -24,11 +24,11 @@ public class Warps implements Comparable<Warps> {
         return nick;
     }
 
-    public LinkedList getNumbers() {
+    public List getNumbers() {
         return numbers;
     }
 
-    public void setNumbers(LinkedList num) {
+    public void setNumbers(List<Integer> num) {
         numbers = num;
     }
 

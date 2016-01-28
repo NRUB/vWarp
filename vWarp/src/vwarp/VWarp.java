@@ -40,9 +40,9 @@ import vwarp.utils.Updater.UpdateType;
 public final class VWarp extends JavaPlugin {
 
     public static final Logger log = Logger.getLogger("vWarp");
-    private static final ArrayList<Warp> warpList = new ArrayList<>();
+    private static final List<Warp> warpList = new ArrayList<>();
     private boolean wasAddedOrRemoved = true;
-    private final LinkedList<Warps> linkedListVWarps = new LinkedList<>();
+    private final List<Warps> linkedListVWarps = new LinkedList<>();
     private static Updater updater;
 
     @Override
@@ -155,7 +155,7 @@ public final class VWarp extends JavaPlugin {
         return false;
     }
 
-    public static ArrayList<Warp> getWarpList() {
+    public static List<Warp> getWarpList() {
         return warpList;
     }
 
