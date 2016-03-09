@@ -62,25 +62,6 @@ public class Config {
         }
     }
 
-    private static int getNumber(String group) {
-        if (configPack.containsKey(group)) {
-            return configPack.get(group);
-        }
-        return 0;
-    }
-
-    private static String getGroup(Player player) {
-        int higherNumber = 0;
-        String theBestGroup = "User";
-        PermissionUser user = PermissionsEx.getUser(player);
-        for (String key : configPack.keySet()) {
-            if (user.inGroup(key) && higherNumber < configPack.get(key)) {
-                theBestGroup = key;
-            }
-        }
-        return theBestGroup;
-    }
-
     public static int getMaxNumber(Player player) {
         return getNumber(getGroup(player));
     }
@@ -112,5 +93,24 @@ public class Config {
         else {
             return 0;
         }
+    }
+
+    private static int getNumber(String group) {
+        if (configPack.containsKey(group)) {
+            return configPack.get(group);
+        }
+        return 0;
+    }
+
+    private static String getGroup(Player player) {
+        int higherNumber = 0;
+        String theBestGroup = "User";
+        PermissionUser user = PermissionsEx.getUser(player);
+        for (String key : configPack.keySet()) {
+            if (user.inGroup(key) && higherNumber < configPack.get(key)) {
+                theBestGroup = key;
+            }
+        }
+        return theBestGroup;
     }
 }

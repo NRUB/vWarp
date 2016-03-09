@@ -11,16 +11,45 @@ import org.bukkit.Location;
  */
 public class CheckSafety {
 
-    private static String world; //world name of vwarp
-    private static double X; //x-coordinates of vwarp
-    private static double Y; //y-coordinates of vwarp
-    private static double Z; //z-coordinates of vwarp
-    private static int checkX; //x-coordinates for checking
-    private static int checkY; //y-coordinates for checking
-    private static int checkZ; //z-coordinates for checking
+    public static String checkSafety(Warp destination) {
+        String world = destination.getWorld();
+        double X = destination.getX() + 0.5;
+        double Y = destination.getY();
+        double Z = destination.getZ() + 0.5;
 
-    private static final List<String> safe = Blocks.getSafeBlockList();
-    private static final List<String> dangerous = Blocks.getDangerousBlockList();
+        Location loc = new Location(getWorld(world), X, Y, Z);
+        double checkX = loc.getBlockX() - 3;
+        double checkY = loc.getBlockY() - 2;
+        double checkZ = loc.getBlockZ() - 3;
+
+        if (!canBeRebornHere(world, X, Y, Z) || isDangerous(world, checkX, checkY, checkZ)) { //SELECTED_VWARP_IS_DANGEROUS
+            return "SVID";
+        }
+        if (canBeRebornHere(world, X, Y, Z) && !isSafe(world, checkX, checkY, checkZ)) { //SELECTED_VWARP_MIGHT_BE_NOT_SAFETY
+            return "SVMBNS";
+        }
+        return "";
+    }
+
+    public static boolean insecure(Warp isBeingChecked) {
+        String world = isBeingChecked.getWorld();
+        double X = isBeingChecked.getX() + 0.5;
+        double Y = isBeingChecked.getY();
+        double Z = isBeingChecked.getZ() + 0.5;
+
+        Location loc = new Location(getWorld(world), X, Y, Z);
+        double checkX = loc.getBlockX() - 3;
+        double checkY = loc.getBlockY() - 2;
+        double checkZ = loc.getBlockZ() - 3;
+
+        return !canBeRebornHere(world, X, Y, Z) || isDangerous(world, checkX, checkY, checkZ);
+    }
+
+    public static void validate(Warp warp) {
+        if (Bukkit.getWorld(warp.getWorld()) == null) {
+            throw new NullPointerException();
+        }
+    }
 
     private static boolean isOnList(int ID, List<String> list) {
         int iterator = 0;
@@ -36,14 +65,14 @@ public class CheckSafety {
     }
 
     private static boolean blockIsSafe(Location loc) { //return true if block is on safe-list in file "blocks.yml"
-        return isOnList(loc.getBlock().getTypeId(), safe);
+        return isOnList(loc.getBlock().getTypeId(), Blocks.getSafeBlockList());
     }
 
     private static boolean blockIsDangerous(Location loc) { //return truee if block is on dangerous-list in file "blocks.yml"
-        return isOnList(loc.getBlock().getTypeId(), dangerous);
+        return isOnList(loc.getBlock().getTypeId(), Blocks.getDangerousBlockList());
     }
 
-    private static boolean canBeRebornHere() { //return true if player will have enough space for reborn
+    private static boolean canBeRebornHere(String world, double X, double Y, double Z) { //return true if player will have enough space for reborn
         try {
             Location loc = new Location(getWorld(world), X - 1, Y, Z - 1);
             int baseX = loc.getBlockX();
@@ -56,13 +85,13 @@ public class CheckSafety {
             int headID = new Location(loc.getWorld(), baseX, baseY + 1, baseZ).getBlock().getTypeId(); //must be air
             int upHeadID = new Location(loc.getWorld(), baseX, baseY + 2, baseZ).getBlock().getTypeId(); //must be air
 
-            return (isOnList(underTwoID, safe) && underTwoID != 0 && underOneID == 49 && zeroID == 0 && headID == 0 && upHeadID == 0);
+            return (isOnList(underTwoID, Blocks.getSafeBlockList()) && underTwoID != 0 && underOneID == 49 && zeroID == 0 && headID == 0 && upHeadID == 0);
         } catch (NullPointerException NPex) {
             return false;
         }
     }
 
-    private static boolean isDangerous() { //return true if vwarp is dangerous (near are blocks from dangerous-list)
+    private static boolean isDangerous(String world, double checkX, double checkY, double checkZ) { //return true if vwarp is dangerous (near are blocks from dangerous-list)
         for (int y = 0; y < 5; y++) { //checking each level
             for (int x = 0; x < 5; x++) {
                 for (int z = 0; z < 5; z++) {
@@ -77,7 +106,7 @@ public class CheckSafety {
         return false;
     }
 
-    private static boolean isSafe() { //return true if vwarp is safe (near are only blocks from safe-list)
+    private static boolean isSafe(String world, double checkX, double checkY, double checkZ) { //return true if vwarp is safe (near are only blocks from safe-list)
         for (int y = 0; y < 5; y++) { //checking each level
             for (int x = 0; x < 5; x++) {
                 for (int z = 0; z < 5; z++) {
@@ -90,45 +119,5 @@ public class CheckSafety {
             }
         }
         return true;
-    }
-
-    public static String checkSafety(Warp destination) {
-        world = destination.getWorld();
-        X = destination.getX() + 0.5;
-        Y = destination.getY();
-        Z = destination.getZ() + 0.5;
-
-        Location loc = new Location(getWorld(world), X, Y, Z);
-        checkX = loc.getBlockX() - 3;
-        checkY = loc.getBlockY() - 2;
-        checkZ = loc.getBlockZ() - 3;
-
-        if (!canBeRebornHere() || isDangerous()) { //SELECTED_VWARP_IS_DANGEROUS
-            return "SVID";
-        }
-        if (canBeRebornHere() && !isSafe()) { //SELECTED_VWARP_MIGHT_BE_NOT_SAFETY
-            return "SVMBNS";
-        }
-        return "";
-    }
-
-    public static boolean insecure(Warp isBeingChecked) {
-        world = isBeingChecked.getWorld();
-        X = isBeingChecked.getX() + 0.5;
-        Y = isBeingChecked.getY();
-        Z = isBeingChecked.getZ() + 0.5;
-
-        Location loc = new Location(getWorld(world), X, Y, Z);
-        checkX = loc.getBlockX() - 3;
-        checkY = loc.getBlockY() - 2;
-        checkZ = loc.getBlockZ() - 3;
-
-        return !canBeRebornHere() || isDangerous();
-    }
-
-    public static void validate(Warp warp) {
-        if (Bukkit.getWorld(warp.getWorld()) == null) {
-            throw new NullPointerException();
-        }
     }
 }

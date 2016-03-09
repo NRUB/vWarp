@@ -590,7 +590,7 @@ public final class VWarp extends JavaPlugin {
         }
     }
 
-    public boolean vreload(CommandSender sender) {
+    private boolean vreload(CommandSender sender) {
         try {
             DataBaseRW.writeFile();
             DataBaseRW.readFile();
@@ -607,7 +607,7 @@ public final class VWarp extends JavaPlugin {
         return true;
     }
 
-    public boolean vrepair(CommandSender sender) {
+    private boolean vrepair(CommandSender sender) {
         if (!(sender instanceof Player) || sender.isOp()) { //use in command prompt or by the OP player
             try {
                 DataBaseRW.makeBackup();
@@ -630,7 +630,7 @@ public final class VWarp extends JavaPlugin {
         return true;
     }
 
-    public boolean vlist(CommandSender sender) {
+    private boolean vlist(CommandSender sender) {
         if (!(sender instanceof Player) || sender.isOp()) { //use in command prompt or by the OP player
             DataBaseRW.getBackupsList(sender);
         }
@@ -640,7 +640,7 @@ public final class VWarp extends JavaPlugin {
         return true;
     }
 
-    public boolean vbackuprestore(CommandSender sender, String[] dateAndTime) {
+    private boolean vbackuprestore(CommandSender sender, String[] dateAndTime) {
         if (!(sender instanceof Player) || sender.isOp()) { //use in command prompt or by the OP player
             if (dateAndTime.length == 2) {
                 try {
@@ -660,7 +660,7 @@ public final class VWarp extends JavaPlugin {
         return true;
     }
 
-    public boolean vupdate(CommandSender sender) {
+    private boolean vupdate(CommandSender sender) {
         if (!(sender instanceof Player) || sender.hasPermission("vwarp.vupdate")) { //use in command prompt or by authorized player
             if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
                 updater = new Updater(this, 96502, this.getFile(), UpdateType.NO_VERSION_CHECK, true);
