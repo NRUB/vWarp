@@ -4,7 +4,7 @@
 #SVIP: 4
 #It's really simple.
 #If a group is not located here, it will not be able to set any vwarp.
-
+default:
 
 #Here you can type how many seconds user must wait before teleport.
 #Please be sure that number is integer, greater than zero. If you type wrong number, plugin will use default delay time which is equals 3 seconds.
