@@ -64,7 +64,6 @@ public final class VWarp extends JavaPlugin {
         for (Warp v : warpList) {
             try {
                 CheckSafety.validate(v);
-
             } catch (NullPointerException NPex) {
                 corrupted.add(v);
             }
@@ -92,12 +91,8 @@ public final class VWarp extends JavaPlugin {
                 log.log(Level.WARNING, "[\u001b[31;1m{0}\u001b[0m] {1}", new Object[]{log.getName(), line.toString()});
             }
         }
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-        } catch (IOException IOex) {
-            log.log(Level.WARNING, "[{0}" + "] " + "Metrics failed!", log.getName());
-        }
+        Metrics metrics = new Metrics(this);
+
         updater = new Updater(this, 96502, this.getFile(), UpdateType.NO_DOWNLOAD, false);
         if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
             log.log(Level.WARNING, "[vWarp] {0}{1}{2}http://dev.bukkit.org/bukkit-plugins/vwarp/{3}", new Object[]{Lang.getMessage("UAL"), updater.getLatestName(), Lang.getMessage("UAM"), Lang.getMessage("UAR")});
