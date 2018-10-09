@@ -1,4 +1,4 @@
-#In this file you can define which blocks are safe and which not.
+#In this file you can define which blocks are safe and which are not.
 #Remember that there are a few immutable rules, that are stronger than those specified in this file.
 #For example, the block on which player will be reborn, must be obsidian and above it must be a minimum of 3 blocks of air.
 #In addition under the block of obsidian cannot be a block of air.

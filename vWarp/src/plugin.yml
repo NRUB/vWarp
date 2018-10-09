@@ -7,27 +7,27 @@ description: Simply and safe warps for players.
 commands:
     vwarp:
         description: teleporting to the desired vwarp
-        usage: /<command> [nick] lub /<command> [nick] [nr]
+        usage: /<command> [nick] or /<command> [nick] [nr]
         permission: vwarp.vwarp
         permission-message: You do not have sufficient permission!
     setvwarp:
         description: setting of vwarp
-        usage: /<command> lub /<command> [nr]
+        usage: /<command> or /<command> [nr]
         permission: vwarp.setvwarp
         permission-message: You do not have sufficient permission!
     delvwarp:
         description: removing of vwarp
-        usage: /<command> lub /<command> [nr]
+        usage: /<command> or /<command> [nr]
         permission: vwarp.delvwarp
         permission-message: You do not have sufficient permission!
     asetvwarp:
         description: setting of vwarp for user by the administrator
-        usage: /<command> [nick] lub /<command> [nick] [nr]
+        usage: /<command> [nick] or /<command> [nick] [nr]
         permission: vwarp.asetvwarp
         permission-message: You do not have sufficient permission!
     adelvwarp:
         description: removing of vwarp for user by the administrator
-        usage: /<command> [nick] lub /<command> [nick] [nr]
+        usage: /<command> [nick] or /<command> [nick] [nr]
         permission: vwarp.adelvwarp
         permission-message: You do not have sufficient permission!
     vwarps:
