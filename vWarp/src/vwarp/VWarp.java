@@ -29,6 +29,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import vwarp.listeners.JoinListener;
+import vwarp.system.Messages;
 import vwarp.utils.Metrics;
 import vwarp.utils.Updater;
 import vwarp.utils.Updater.UpdateType;
@@ -69,7 +70,7 @@ public final class VWarp extends JavaPlugin {
             }
         }
         if (!corrupted.isEmpty()) {
-            log.log(Level.WARNING, "[{0}] \u001b[31;1m{1}\u001b[0m", new Object[]{log.getName(), Lang.getMessage("DLE")});
+            log.log(Level.WARNING, "[{0}] \u001b[31;1m{1}\u001b[0m", new Object[]{log.getName(), Lang.getMessage(Messages.DLE)});
             for (Warp w : corrupted) {
                 StringBuilder line = new StringBuilder(50);
                 line.append(w.getName());
@@ -95,7 +96,7 @@ public final class VWarp extends JavaPlugin {
 
         updater = new Updater(this, 96502, this.getFile(), UpdateType.NO_DOWNLOAD, false);
         if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-            log.log(Level.WARNING, "[vWarp] {0}{1}{2}http://dev.bukkit.org/bukkit-plugins/vwarp/{3}", new Object[]{Lang.getMessage("UAL"), updater.getLatestName(), Lang.getMessage("UAM"), Lang.getMessage("UAR")});
+            log.log(Level.WARNING, "[vWarp] {0} {1} {2} http://dev.bukkit.org/bukkit-plugins/vwarp/ {3}", new Object[]{Lang.getMessage(Messages.UAA), updater.getLatestName(), Lang.getMessage(Messages.UAB), Lang.getMessage(Messages.UAC)});
         }
 
         log.log(Level.INFO, "[{0}" + "] " + "vWarp started", log.getName());
@@ -191,14 +192,14 @@ public final class VWarp extends JavaPlugin {
 
                         j = i;
 
-                        String safety = CheckSafety.checkSafety(warpList.get(i));
-                        if (!safety.equals("")) {
+                        Messages safety = CheckSafety.checkSafety(warpList.get(i));
+                        if (safety != null) {
                             sender.sendMessage(Lang.getMessage(safety));
                         }
 
-                        if (!safety.equals("SVID")) {
+                        if (safety != Messages.SVID) {
                             if (Config.waitTime((Player) sender) != 0) {
-                                sender.sendMessage(Lang.getMessage("WOTTvwarp"));
+                                sender.sendMessage(Lang.getMessage(Messages.WOTTV));
                                 int counter = 0;
                                 int maxTicks = Config.waitTime((Player) sender) * 20;
                                 dustTeleportTask(loc, counter, maxTicks - 30);
@@ -213,17 +214,17 @@ public final class VWarp extends JavaPlugin {
 
                                 if (A[0] == B[0] && A[1] == B[1] && A[2] == B[2]) {
                                     ((Player) sender).teleport(loc);
-                                    sender.sendMessage(Lang.getMessage("TTvwarp") + warpList.get(j).getName() + "!");
+                                    sender.sendMessage(Lang.getMessage(Messages.TTV) + warpList.get(j).getName() + "!");
                                 }
                                 else {
-                                    sender.sendMessage(Lang.getMessage("ATRTvwarp"));
+                                    sender.sendMessage(Lang.getMessage(Messages.ATRTV));
                                 }
                             }, 20 * Config.waitTime((Player) sender));
                         }
                         return true;
                     }
                 }
-                sender.sendMessage(Lang.getMessage("NE"));
+                sender.sendMessage(Lang.getMessage(Messages.NE));
                 return true;
             }
             if (args.length == 2) { //use extra vwarp
@@ -252,14 +253,14 @@ public final class VWarp extends JavaPlugin {
 
                         j = i;
 
-                        String safety = CheckSafety.checkSafety(warpList.get(i));
-                        if (!safety.equals("")) {
+                        Messages safety = CheckSafety.checkSafety(warpList.get(i));
+                        if (safety != null) {
                             sender.sendMessage(Lang.getMessage(safety));
                         }
 
-                        if (!safety.equals("SVID")) {
+                        if (safety != Messages.SVID) {
                             if (Config.waitTime((Player) sender) != 0) {
-                                sender.sendMessage(Lang.getMessage("WOTTvwarp"));
+                                sender.sendMessage(Lang.getMessage(Messages.WOTTV));
                                 int counter = 0;
                                 int maxTicks = Config.waitTime((Player) sender) * 20;
                                 dustTeleportTask(loc, counter, maxTicks - 30);
@@ -274,22 +275,22 @@ public final class VWarp extends JavaPlugin {
 
                                 if (A[0] == B[0] && A[1] == B[1] && A[2] == B[2]) {
                                     ((Player) sender).teleport(loc);
-                                    sender.sendMessage((nr == 0) ? (Lang.getMessage("TTvwarp") + warpList.get(j).getName() + "!") : (Lang.getMessage("TTvwarp") + warpList.get(j).getName() + " - " + nr + "!"));
+                                    sender.sendMessage((nr == 0) ? (Lang.getMessage(Messages.TTV) + warpList.get(j).getName() + "!") : (Lang.getMessage(Messages.TTV) + warpList.get(j).getName() + " - " + nr + "!"));
                                 }
                                 else {
-                                    sender.sendMessage(Lang.getMessage("ATRTvwarp"));
+                                    sender.sendMessage(Lang.getMessage(Messages.ATRTV));
                                 }
                             }, 20 * Config.waitTime((Player) sender));
                         }
                         return true;
                     }
                 }
-                sender.sendMessage(Lang.getMessage("NE"));
+                sender.sendMessage(Lang.getMessage(Messages.NE));
                 return true;
             }
         }
         else { //use in command prompt
-            sender.sendMessage(Lang.getMessage("NICP"));
+            sender.sendMessage(Lang.getMessage(Messages.NICP));
             return true;
         }
         return false;
@@ -306,7 +307,7 @@ public final class VWarp extends JavaPlugin {
                     }
                 }
                 warpList.add(temp);
-                sender.sendMessage(Lang.getMessage("CDvwarp"));
+                sender.sendMessage(Lang.getMessage(Messages.CDV));
                 if (!CheckSafety.insecure(temp)) {
                     dustStartTask(temp.getLocation(), 0, 30);
                 }
@@ -330,7 +331,7 @@ public final class VWarp extends JavaPlugin {
                         }
                     }
                     warpList.add(temp);
-                    sender.sendMessage((nr == 0) ? (Lang.getMessage("CDvwarp")) : (Lang.getMessage("CEvwarp") + nr + "."));
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage(Messages.CDV)) : (Lang.getMessage(Messages.CEV) + nr + "."));
                     if (!CheckSafety.insecure(temp)) {
                         dustStartTask(temp.getLocation(), 0, 30);
                     }
@@ -338,12 +339,12 @@ public final class VWarp extends JavaPlugin {
                     return true;
                 }
                 else if (canSetVWarpWorldException((Player) sender)) { //typing too large number of vwarp
-                    sender.sendMessage(Lang.getMessage("TBNOvwarp"));
+                    sender.sendMessage(Lang.getMessage(Messages.TBNOV));
                     return true;
                 }
             }
             if (!canSetVWarpWorldException((Player) sender)) {
-                sender.sendMessage(Lang.getMessage("BW"));
+                sender.sendMessage(Lang.getMessage(Messages.BW));
                 return true;
             }
             else { //typing too many arguments
@@ -351,7 +352,7 @@ public final class VWarp extends JavaPlugin {
             }
         }
         else { //use in command prompt
-            sender.sendMessage(Lang.getMessage("NICP"));
+            sender.sendMessage(Lang.getMessage(Messages.NICP));
             return true;
         }
     }
@@ -365,7 +366,7 @@ public final class VWarp extends JavaPlugin {
                         i = warpList.size();
                     }
                 }
-                sender.sendMessage(Lang.getMessage("DDvwarp"));
+                sender.sendMessage(Lang.getMessage(Messages.DDV));
                 wasAddedOrRemoved = true;
                 return true;
             }
@@ -381,7 +382,7 @@ public final class VWarp extends JavaPlugin {
                             i = warpList.size();
                         }
                     }
-                    sender.sendMessage((nr == 0) ? (Lang.getMessage("DDvwarp")) : (Lang.getMessage("DEvwarpF") + nr + Lang.getMessage("DEvwarpE")));
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage(Messages.DDV)) : (Lang.getMessage(Messages.DEV)));
                     wasAddedOrRemoved = true;
                     return true;
                 } catch (NumberFormatException NFex) { //first argument is not a number
@@ -393,7 +394,7 @@ public final class VWarp extends JavaPlugin {
             }
         }
         else { //use in command prompt
-            sender.sendMessage(Lang.getMessage("NICP"));
+            sender.sendMessage(Lang.getMessage(Messages.NICP));
             return true;
         }
     }
@@ -412,7 +413,7 @@ public final class VWarp extends JavaPlugin {
                     }
                 }
                 warpList.add(temp);
-                sender.sendMessage(Lang.getMessage("ACDvwarp") + args[0]);
+                sender.sendMessage(Lang.getMessage(Messages.ACDVA) + args[0] + Lang.getMessage(Messages.ACDVB));
                 if (!CheckSafety.insecure(temp)) {
                     dustStartTask(temp.getLocation(), 0, 30);
                 }
@@ -433,7 +434,7 @@ public final class VWarp extends JavaPlugin {
                         }
                     }
                     warpList.add(temp);
-                    sender.sendMessage((nr == 0) ? (Lang.getMessage("ACDvwarp") + args[0]) : (Lang.getMessage("ACEvwarpF") + nr + Lang.getMessage("ACEvwarpE") + args[0]));
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage(Messages.ACDVA) + args[0] + Lang.getMessage(Messages.ACDVB)) : (Lang.getMessage(Messages.ACEVA) + args[0] + Lang.getMessage(Messages.ACEVB)));
                     if (!CheckSafety.insecure(temp)) {
                         dustStartTask(temp.getLocation(), 0, 30);
                     }
@@ -448,7 +449,7 @@ public final class VWarp extends JavaPlugin {
             }
         }
         else { //use in command prompt
-            sender.sendMessage(Lang.getMessage("NICP"));
+            sender.sendMessage(Lang.getMessage(Messages.NICP));
             return true;
         }
     }
@@ -465,7 +466,7 @@ public final class VWarp extends JavaPlugin {
                         i = warpList.size();
                     }
                 }
-                sender.sendMessage(Lang.getMessage("ADDvwarp") + args[0]);
+                sender.sendMessage(Lang.getMessage(Messages.ADDVA) + args[0] + Lang.getMessage(Messages.ADDVB));
                 wasAddedOrRemoved = true;
                 return true;
             }
@@ -481,7 +482,7 @@ public final class VWarp extends JavaPlugin {
                             i = warpList.size();
                         }
                     }
-                    sender.sendMessage((nr == 0) ? (Lang.getMessage("ADDvwarp") + args[0]) : (Lang.getMessage("ADEvwarpF") + nr + Lang.getMessage("ADEvwarpE") + args[0]));
+                    sender.sendMessage((nr == 0) ? (Lang.getMessage(Messages.ADDVA) + args[0] + Lang.getMessage(Messages.ADDVB)) : (Lang.getMessage(Messages.ADEVA) + args[0] + Lang.getMessage(Messages.ADEVB)));
                     wasAddedOrRemoved = true;
                     return true;
                 } catch (NumberFormatException NFex) { //second argument is not a number
@@ -494,8 +495,7 @@ public final class VWarp extends JavaPlugin {
         }
         else { //use in command prompt
             if (args.length == 0) { //empty user name
-                sender.sendMessage(Lang.getMessage("CUICP"));
-                return true;
+                return false;
             }
             if (args.length == 1) { //delete default vwarp for user by the administrator
                 for (int i = 0; i < warpList.size(); i++) {
@@ -504,7 +504,7 @@ public final class VWarp extends JavaPlugin {
                         i = warpList.size();
                     }
                 }
-                sender.sendMessage(Lang.getMessage("ADDvwarp") + args[0]);
+                sender.sendMessage(Lang.getMessage(Messages.ADDVA) + args[0] + Lang.getMessage(Messages.ADDVB));
                 wasAddedOrRemoved = true;
                 return true;
             }
@@ -513,8 +513,7 @@ public final class VWarp extends JavaPlugin {
                 try {
                     nr = parseInt(args[1]);
                 } catch (NumberFormatException NFex) {
-                    sender.sendMessage(Lang.getMessage("CUICP"));
-                    return true;
+                    return false;
                 }
                 for (int i = 0; i < warpList.size(); i++) {
                     if (warpList.get(i).getName().equals(args[0]) && (warpList.get(i).getNumber()) == nr) {
@@ -522,13 +521,12 @@ public final class VWarp extends JavaPlugin {
                         i = warpList.size();
                     }
                 }
-                sender.sendMessage((nr == 0) ? (Lang.getMessage("ADDvwarp") + args[0]) : (Lang.getMessage("ADEvwarpF") + nr + Lang.getMessage("ADEvwarpE") + args[0]));
+                sender.sendMessage((nr == 0) ? (Lang.getMessage(Messages.ADDVA) + args[0] + Lang.getMessage(Messages.ADDVB)) : (Lang.getMessage(Messages.ADEVA) + args[0] + Lang.getMessage(Messages.ADEVB)));
                 wasAddedOrRemoved = true;
                 return true;
             }
             else {
-                sender.sendMessage(Lang.getMessage("CUICP"));
-                return true;
+                return false;
             }
         }
     }
@@ -539,7 +537,7 @@ public final class VWarp extends JavaPlugin {
         }
         if (sender instanceof Player) { //use by the player
             if (args.length == 0) {
-                sender.sendMessage(Lang.getMessage("CUV"));
+                sender.sendMessage(Lang.getMessage(Messages.CUV));
                 return true;
             }
             if (args.length == 1) {
@@ -549,10 +547,10 @@ public final class VWarp extends JavaPlugin {
                     nr = Math.abs(nr);
 
                     if (nr <= 0) {
-                        sender.sendMessage(Lang.getMessage("CUV"));
+                        sender.sendMessage(Lang.getMessage(Messages.CUV));
                         return true;
                     }
-                    sender.sendMessage(Lang.getMessage("POL") + nr);
+                    sender.sendMessage(Lang.getMessage(Messages.POL) + nr);
                     nr = (--nr) * 15;
                     if (nr > linkedListVWarps.size()) {
                         return true;
@@ -579,7 +577,7 @@ public final class VWarp extends JavaPlugin {
                 return true;
             }
             else {
-                sender.sendMessage(Lang.getMessage("NICP"));
+                sender.sendMessage(Lang.getMessage(Messages.NICP));
                 return true;
             }
         }
@@ -593,12 +591,12 @@ public final class VWarp extends JavaPlugin {
             Config.load(this);
             Blocks.load(this);
         } catch (InvalidConfigurationException ICex) {
-            sender.sendMessage(Lang.getMessage("RI") + " - InvalidConfigurationException");
+            sender.sendMessage(Lang.getMessage(Messages.RI) + " - InvalidConfigurationException");
         } catch (IOException IOex) {
-            sender.sendMessage(Lang.getMessage("RI") + " - IOException");
+            sender.sendMessage(Lang.getMessage(Messages.RI) + " - IOException");
         }
         reloadList();
-        sender.sendMessage(Lang.getMessage("RP"));
+        sender.sendMessage(Lang.getMessage(Messages.RP));
         return true;
     }
 
@@ -607,17 +605,17 @@ public final class VWarp extends JavaPlugin {
             try {
                 DataBaseRW.makeBackup();
             } catch (IOException IOex) {
-                sender.sendMessage(Lang.getMessage("BI") + " - IOException");
+                sender.sendMessage(Lang.getMessage(Messages.BI) + " - IOException");
             }
 
             try {
                 DataBaseRW.readFile();
             } catch (IOException IOex) {
-                sender.sendMessage(Lang.getMessage("RI") + " - IOException");
+                sender.sendMessage(Lang.getMessage(Messages.RI) + " - IOException");
             }
 
             reloadList();
-            sender.sendMessage(Lang.getMessage("BP"));
+            sender.sendMessage(Lang.getMessage(Messages.BP));
         }
         else {
             sender.sendMessage(getCommand("vrepair").getPermissionMessage());
@@ -642,7 +640,7 @@ public final class VWarp extends JavaPlugin {
                     DataBaseRW.loadBackup(sender, dateAndTime);
                     reloadList();
                 } catch (IOException IOex) {
-                    sender.sendMessage(Lang.getMessage("SBI") + " - IOException");
+                    sender.sendMessage(Lang.getMessage(Messages.SBI) + " - IOException");
                 }
             }
             else {

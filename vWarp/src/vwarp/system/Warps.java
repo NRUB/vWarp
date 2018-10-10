@@ -42,10 +42,10 @@ public class Warps implements Comparable<Warps> {
         Collections.sort(numbers);
 
         StringBuilder player = new StringBuilder(32);
-        player.append(Lang.getMessage("NC"));
+        player.append(Lang.getMessage(Messages.NC));
         player.append(nick);
         player.append(" ");
-        player.append(Lang.getMessage("LC"));
+        player.append(Lang.getMessage(Messages.LC));
         player.append("[");
         Iterator<Integer> i = numbers.iterator();
         while (i.hasNext()) {
@@ -60,10 +60,10 @@ public class Warps implements Comparable<Warps> {
                 x++;
             } while (x < VWarp.getWarpList().size());
             if (CheckSafety.insecure(last)) {
-                player.append(Lang.getMessage("IC"));
+                player.append(Lang.getMessage(Messages.IC));
             }
             player.append(number);
-            player.append(Lang.getMessage("LC"));
+            player.append(Lang.getMessage(Messages.LC));
             if (i.hasNext()) {
                 player.append(", ");
             }

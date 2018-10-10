@@ -11,7 +11,7 @@ import org.bukkit.Location;
  */
 public class CheckSafety {
 
-    public static String checkSafety(Warp destination) {
+    public static Messages checkSafety(Warp destination) {
         String world = destination.getWorld();
         double X = destination.getX() + 0.5;
         double Y = destination.getY();
@@ -23,12 +23,12 @@ public class CheckSafety {
         double checkZ = loc.getBlockZ() - 3;
 
         if (!canBeRebornHere(world, X, Y, Z) || isDangerous(world, checkX, checkY, checkZ)) { //SELECTED_VWARP_IS_DANGEROUS
-            return "SVID";
+            return Messages.SVID;
         }
-        if (canBeRebornHere(world, X, Y, Z) && !isSafe(world, checkX, checkY, checkZ)) { //SELECTED_VWARP_MIGHT_BE_NOT_SAFETY
-            return "SVMBNS";
+        if (canBeRebornHere(world, X, Y, Z) && !isSafe(world, checkX, checkY, checkZ)) { //SELECTED_VWARP_MIGHT_NOT_BE_SAFE
+            return Messages.SVMNBS;
         }
-        return "";
+        return null;
     }
 
     public static boolean insecure(Warp isBeingChecked) {

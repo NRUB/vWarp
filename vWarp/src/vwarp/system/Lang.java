@@ -18,37 +18,31 @@ import org.yaml.snakeyaml.Yaml;
 public class Lang {
 
     private static String NICP; //NOT_IN_COMMAND_PROMPT
-    private static String CUICP; //CORRECT_USE_IN_COMMAND_PROMPT
-    private static String TBNOvwarp; //TOO_BIG_NUMBER_OF_VWARP
+    private static String TBNOV; //TOO_BIG_NUMBER_OF_VWARP
     private static String BW; //BAD_WORLD
 
-    private static String WOTTvwarp; //WAIT_ON_TELEPORTATION_TO_VWARP
-    private static String TTvwarp; //TELEPORTED_TO_VWARP
-    private static String ATRTvwarp; //ABORTED_TELEPORT_REQUEST_TO_VWARP
+    private static String WOTTV; //WAIT_ON_TELEPORTATION_TO_VWARP
+    private static String TTV; //TELEPORTED_TO_VWARP
+    private static String ATRTV; //ABORTED_TELEPORT_REQUEST_TO_VWARP
     private static String NE; //NOT_EXIST
     private static String SVID; //SELECTED_VWARP_IS_DANGEROUS
-    private static String SVMBNS; //SELECTED_VWARP_MIGHT_BE_NOT_SAFETY
+    private static String SVMNBS; //SELECTED_VWARP_MIGHT_NOT_BE_SAFE
 
-    private static String CDvwarp; //CREATE_DEFAULT_VWARP
-    private static String CEvwarp; //CREATE_EXTRA_VWARP
+    private static String CDV; //CREATE_DEFAULT_VWARP
+    private static String CEV; //CREATE_EXTRA_VWARP
 
-    private static String DDvwarp; //DELETE_DEFAULT_VWARP
-    private static String DEvwarpF; //DELETE_EXTRA_VWARP_FRONT
-    private static String DEvwarpE; //DELETE_EXTRA_VWARP_END
+    private static String DDV; //DELETE_DEFAULT_VWARP
+    private static String DEV; //DELETE_EXTRA_VWARP
 
-    private static String ACDvwarp; //ADMIN_CREATE_DEFAULT_VWARP
-    private static String ACEvwarpF; //ADMIN_CREATE_EXTRA_VWARP_FRONT
-    private static String ACEvwarpE; //ADMIN_CREATE_EXTRA_VWARP_END
+    private static String ACDVA; //ADMIN_CREATE_DEFAULT_VWARP_A
+    private static String ACDVB; //ADMIN_CREATE_DEFAULT_VWARP_B
+    private static String ACEVA; //ADMIN_CREATE_EXTRA_VWARP_A
+    private static String ACEVB; //ADMIN_CREATE_EXTRA_VWARP_B
 
-    private static String ADDvwarp; //ADMIN_DELETE_DEFAULT_VWARP
-    private static String ADEvwarpF; //ADMIN_DELETE_EXTRA_VWARP_FRONT
-    private static String ADEvwarpE; //ADMIN_DELETE_EXTRA_VWARP_END
-
-    private static String NC; //NICK_COLOR
-    private static String LC; //LIST_COLOR
-    private static String IC; //INSECURE_COLOR
-    private static String POL; //PAGE_OF_LIST
-    private static String CUV; //CORRECT_USAGE_VWARPS
+    private static String ADDVA; //ADMIN_DELETE_DEFAULT_A
+    private static String ADDVB; //ADMIN_DELETE_DEFAULT_B
+    private static String ADEVA; //ADMIN_DELETE_EXTRA_VWARP_A
+    private static String ADEVB; //ADMIN_DELETE_EXTRA_VWARP_B
 
     private static String RP; //RELOAD_PLUGIN
     private static String RI; //RELOADING_INTERRUPTED
@@ -60,9 +54,15 @@ public class Lang {
     private static String SBI; //SELECTED_BACKUP_INTERRUPTED
     private static String DLE; //DATABASE_LOAD_ERROR
 
-    private static String UAL; //UPDATE_ANNOUNCEMENT_LEFT
-    private static String UAM; //UPDATE_ANNOUNCEMENT_MIDDLE
-    private static String UAR; //UPDATE_ANNOUNCEMENT_RIGHT
+    private static String NC; //NICK_COLOR
+    private static String LC; //LIST_COLOR
+    private static String IC; //INSECURE_COLOR
+    private static String POL; //PAGE_OF_LIST
+    private static String CUV; //CORRECT_USAGE_VWARPS
+
+    private static String UAA; //UPDATE_ANNOUNCEMENT_A
+    private static String UAB; //UPDATE_ANNOUNCEMENT_B
+    private static String UAC; //UPDATE_ANNOUNCEMENT_C
 
     private static Map<String, String> langPack;
 
@@ -84,31 +84,31 @@ public class Lang {
         langPack = (Map<String, String>) lang.load(loadLang);
 
         NICP = langPack.get("NOT_IN_COMMAND_PROMPT");
-        CUICP = langPack.get("CORRECT_USE_IN_COMMAND_PROMPT");
-        TBNOvwarp = langPack.get("TOO_BIG_NUMBER_OF_VWARP");
+        TBNOV = langPack.get("TOO_BIG_NUMBER_OF_VWARP");
         BW = langPack.get("BAD_WORLD");
 
-        WOTTvwarp = langPack.get("WAIT_ON_TELEPORTATION_TO_VWARP");
-        ATRTvwarp = langPack.get("ABORTED_TELEPORT_REQUEST_TO_VWARP");
-        TTvwarp = langPack.get("TELEPORTED_TO_VWARP");
+        WOTTV = langPack.get("WAIT_ON_TELEPORTATION_TO_VWARP");
+        TTV = langPack.get("TELEPORTED_TO_VWARP");
+        ATRTV = langPack.get("ABORTED_TELEPORT_REQUEST_TO_VWARP");
         NE = langPack.get("NOT_EXIST");
         SVID = langPack.get("SELECTED_VWARP_IS_DANGEROUS");
-        SVMBNS = langPack.get("SELECTED_VWARP_MIGHT_BE_NOT_SAFETY");
+        SVMNBS = langPack.get("SELECTED_VWARP_MIGHT_NOT_BE_SAFE");
 
-        CDvwarp = langPack.get("CREATE_DEFAULT_VWARP");
-        CEvwarp = langPack.get("CREATE_EXTRA_VWARP");
+        CDV = langPack.get("CREATE_DEFAULT_VWARP");
+        CEV = langPack.get("CREATE_EXTRA_VWARP");
 
-        DDvwarp = langPack.get("DELETE_DEFAULT_VWARP");
-        DEvwarpF = langPack.get("DELETE_EXTRA_VWARP_FRONT");
-        DEvwarpE = langPack.get("DELETE_EXTRA_VWARP_END");
+        DDV = langPack.get("DELETE_DEFAULT_VWARP");
+        DEV = langPack.get("DELETE_EXTRA_VWARP");
 
-        ACDvwarp = langPack.get("ADMIN_CREATE_DEFAULT_VWARP");
-        ACEvwarpF = langPack.get("ADMIN_CREATE_EXTRA_VWARP_FRONT");
-        ACEvwarpE = langPack.get("ADMIN_CREATE_EXTRA_VWARP_END");
+        ACDVA = langPack.get("ADMIN_CREATE_DEFAULT_VWARP_A");
+        ACDVB = langPack.get("ADMIN_CREATE_DEFAULT_VWARP_B");
+        ACEVA = langPack.get("ADMIN_CREATE_EXTRA_VWARP_A");
+        ACEVB = langPack.get("ADMIN_CREATE_EXTRA_VWARP_B");
 
-        ADDvwarp = langPack.get("ADMIN_DELETE_DEFAULT_VWARP");
-        ADEvwarpF = langPack.get("ADMIN_DELETE_EXTRA_VWARP_FRONT");
-        ADEvwarpE = langPack.get("ADMIN_DELETE_EXTRA_VWARP_END");
+        ADDVA = langPack.get("ADMIN_DELETE_DEFAULT_VWARP_A");
+        ADDVB = langPack.get("ADMIN_DELETE_DEFAULT_VWARP_B");
+        ADEVA = langPack.get("ADMIN_DELETE_EXTRA_VWARP_A");
+        ADEVB = langPack.get("ADMIN_DELETE_EXTRA_VWARP_B");
 
         RP = langPack.get("RELOAD_PLUGIN");
         RI = langPack.get("RELOADING_INTERRUPTED");
@@ -126,97 +126,97 @@ public class Lang {
         POL = langPack.get("PAGE_OF_LIST");
         CUV = langPack.get("CORRECT_USAGE_VWARPS");
 
-        UAL = langPack.get("UPDATE_ANNOUNCEMENT_LEFT");
-        UAM = langPack.get("UPDATE_ANNOUNCEMENT_MIDDLE");
-        UAR = langPack.get("UPDATE_ANNOUNCEMENT_RIGHT");
+        UAA = langPack.get("UPDATE_ANNOUNCEMENT_A");
+        UAB = langPack.get("UPDATE_ANNOUNCEMENT_B");
+        UAC = langPack.get("UPDATE_ANNOUNCEMENT_C");
     }
 
-    public static String getMessage(String msg) {
+    public static String getMessage(Messages msg) {
         switch (msg) {
-            case "NICP":
+            case NICP:
                 return NICP;
-            case "CUICP":
-                return CUICP;
-            case "TBNOvwarp":
-                return TBNOvwarp;
-            case "BW":
+            case TBNOV:
+                return TBNOV;
+            case BW:
                 return BW;
 
-            case "WOTTvwarp":
-                return WOTTvwarp;
-            case "ATRTvwarp":
-                return ATRTvwarp;
-            case "TTvwarp":
-                return TTvwarp;
-            case "NE":
+            case WOTTV:
+                return WOTTV;
+            case ATRTV:
+                return ATRTV;
+            case TTV:
+                return TTV;
+            case NE:
                 return NE;
-            case "SVID":
+            case SVID:
                 return SVID;
-            case "SVMBNS":
-                return SVMBNS;
+            case SVMNBS:
+                return SVMNBS;
 
-            case "CDvwarp":
-                return CDvwarp;
-            case "CEvwarp":
-                return CEvwarp;
+            case CDV:
+                return CDV;
+            case CEV:
+                return CEV;
 
-            case "DDvwarp":
-                return DDvwarp;
-            case "DEvwarpF":
-                return DEvwarpF;
-            case "DEvwarpE":
-                return DEvwarpE;
+            case DDV:
+                return DDV;
+            case DEV:
+                return DEV;
 
-            case "ACDvwarp":
-                return ACDvwarp;
-            case "ACEvwarpF":
-                return ACEvwarpF;
-            case "ACEvwarpE":
-                return ACEvwarpE;
+            case ACDVA:
+                return ACDVA;
+            case ACDVB:
+                return ACDVB;
+            case ACEVA:
+                return ACEVA;
+            case ACEVB:
+                return ACEVB;
 
-            case "ADDvwarp":
-                return ADDvwarp;
-            case "ADEvwarpF":
-                return ADEvwarpF;
-            case "ADEvwarpE":
-                return ADEvwarpE;
+            case ADDVA:
+                return ADDVA;
+            case ADDVB:
+                return ADDVB;
+            case ADEVA:
+                return ADEVA;
+            case ADEVB:
+                return ADEVB;
 
-            case "RP":
+            case RP:
                 return RP;
-            case "RI":
+            case RI:
                 return RI;
-            case "BP":
+            case BP:
                 return BP;
-            case "BI":
+            case BI:
                 return BI;
-            case "NB":
+            case NB:
                 return NB;
-            case "SBL":
+            case SBL:
                 return SBL;
-            case "SBNF":
+            case SBNF:
                 return SBNF;
-            case "SBI":
+            case SBI:
                 return SBI;
-            case "DLE":
+            case DLE:
                 return DLE;
 
-            case "NC":
+            case NC:
                 return NC;
-            case "LC":
+            case LC:
                 return LC;
-            case "IC":
+            case IC:
                 return IC;
-            case "POL":
+            case POL:
                 return POL;
-            case "CUV":
+            case CUV:
                 return CUV;
 
-            case "UAL":
-                return UAL;
-            case "UAM":
-                return UAM;
-            case "UAR":
-                return UAR;
+            case UAA:
+                return UAA;
+            case UAB:
+                return UAB;
+            case UAC:
+                return UAC;
         }
         return null;
     }

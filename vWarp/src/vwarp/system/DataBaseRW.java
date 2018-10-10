@@ -59,10 +59,10 @@ public class DataBaseRW {
                 }
             } while (vWarpDataBase.ready());
             vWarpDataBase.close();
-            log.log(Level.INFO, "[{0}" + "] " + "vWarp database is loaded!", log.getName());
+            log.log(Level.INFO, "[{0}] vWarp database is loaded!", log.getName());
         } catch (FileNotFoundException FNFex) {
             new File("plugins/vWarp", "vWarp.csv").createNewFile();
-            log.log(Level.INFO, "[{0}" + "] " + "File with database of vWarps was not found!", log.getName());
+            log.log(Level.INFO, "[{0}] File with database of vWarps was not found!", log.getName());
         }
     }
 
@@ -119,7 +119,7 @@ public class DataBaseRW {
             }
         }
         else {
-            sender.sendMessage(ChatColor.RED + Lang.getMessage("NB"));
+            sender.sendMessage(ChatColor.RED + Lang.getMessage(Messages.NB));
         }
     }
 
@@ -128,12 +128,12 @@ public class DataBaseRW {
             makeBackup();
             new File("plugins/vWarp/vWarp.csv").delete();
             new File("plugins/vWarp/vWarpBackup " + DT[0] + " " + DT[1] + ".back").renameTo(new File("plugins/vWarp/vWarp.csv"));
-            sender.sendMessage(Lang.getMessage("SBL") + DT[0] + " " + DT[1]);
+            sender.sendMessage(Lang.getMessage(Messages.SBL) + DT[0] + " " + DT[1]);
             readFile();
             writeFile();
         }
         else {
-            sender.sendMessage(ChatColor.RED + Lang.getMessage("SBNF"));
+            sender.sendMessage(ChatColor.RED + Lang.getMessage(Messages.SBNF));
         }
     }
 }
